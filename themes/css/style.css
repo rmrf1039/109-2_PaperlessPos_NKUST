@@ -10,20 +10,8 @@ The smaller device rules always should write below the bigger device rules
 Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Component
 */
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
-@import url(../icons/font-awesome/css/font-awesome.min.css);
 @import url(../icons/simple-line-icons/css/simple-line-icons.css);
-@import url(../icons/weather-icons/css/weather-icons.min.css);
-@import url(../icons/cryptocoins/css/cryptocoins.css);
-@import url(../icons/cryptocoins/css/cryptocoins-colors.css);
-@import url(../icons/linea-icons/linea.css);
-@import url(../icons/ionicons/css/ionicons.css);
 @import url(../icons/themify-icons/themify-icons.css);
-@import url(../icons/flag-icon-css/flag-icon.min.css);
-@import url(../icons/material-design-iconic-font/materialdesignicons.min.css);
-@import url(../icons/pe-icon-set-weather/css/pe-icon-set-weather.min.css);
-@import url(../plugins/animate/animate.min.css);
-@import url(../plugins/metismenu/css/metisMenu.min.css);
-@import url(../plugins/bootstrap-select/dist/css/bootstrap-select.min.css);
 .gradient-1, .dropdown-mega-menu .ext-link.link-1 a, .morris-hover, .datamaps-hoverover {
   background-image: linear-gradient(230deg, #759bff, #843cf6); }
 
@@ -6879,24 +6867,6 @@ a.text-dark:hover, a.text-dark:focus {
 .circle-rounded {
   border-radius: 50% !important; }
 
-.icon-muted i {
-  color: #8898aa !important; }
-
-.icon-dpink i {
-  color: #fe60ad !important; }
-
-.icon-success i {
-  color: #6fd96f !important; }
-
-.icon-primary i {
-  color: #7571f9 !important; }
-
-.icon-danger i {
-  color: #ff5e5e !important; }
-
-.icon-warning i {
-  color: #f29d56 !important; }
-
 .bg-gallery {
   background: #EEEEEE !important; }
 
@@ -7116,44 +7086,6 @@ a.text-dark:hover, a.text-dark:focus {
   color: #4501EB; }
   .blue-bg {
     background: #4501EB; }
-
-/*    Brand Background
------------------------------*/
-.bg-facebook {
-  background: #3b5998;
-  fill: #3b5998; }
-
-.bg-twitter {
-  background: #1da1f2;
-  fill: #1da1f2; }
-
-.bg-youtube {
-  background: #FF0000;
-  fill: #FF0000; }
-
-.bg-instagram {
-  background: #c32aa3;
-  fill: #c32aa3; }
-
-.bg-google-plus {
-  background: #db4439;
-  fill: #db4439; }
-
-.bg-linkedin {
-  background: #007bb6;
-  fill: #007bb6; }
-
-.color-facebook {
-  color: #3b5998; }
-
-.color-instagram {
-  color: #c32aa3; }
-
-.color-twitter {
-  color: #1da1f2; }
-
-.color-youtube {
-  color: #FF0000; }
 
 .gradient-default {
   background: #BCBCBC; }
@@ -11376,18 +11308,6 @@ table.dataTable thead .sorting::after {
   bottom: 15px;
   left: 30px; }
 
-.card-bg-img-1 {
-  background: url(../../assets/images/big/img6.jpg);
-  background-position: center;
-  background-size: cover;
-  min-height: 300px; }
-
-.card-bg-img-2 {
-  background: url(../../assets/images/big/img6.jpg);
-  background-position: center;
-  background-size: cover;
-  min-height: 400px; }
-
 .card-loader {
   position: absolute;
   top: 0;
@@ -11823,12 +11743,6 @@ table.dataTable thead .sorting::after {
 .about__list:last-child {
   margin-bottom: 0 !important; }
 
-.comming-soon-wrapper {
-  background-image: url("../../assets/images/big/comming-soon-bg.png");
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover; }
   .comming-soon-wrapper .container {
     max-width: 950px; }
 
@@ -11913,7 +11827,6 @@ table.dataTable thead .sorting::after {
   color: #7571f9; }
 
 #password-page1 body {
-  background: url(../../assets/images/background/password-bg.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12068,7 +11981,6 @@ table.dataTable thead .sorting::after {
       color: #ff5e5e; }
 
 #register-page1 body {
-  background: url(../../assets/images/background/register-bg.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12076,7 +11988,6 @@ table.dataTable thead .sorting::after {
   position: relative; }
 
 #login-page2 body {
-  background: url(../../assets/images/background/login-register2.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12093,7 +12004,6 @@ table.dataTable thead .sorting::after {
     z-index: -1; }
 
 #login-page1 body {
-  background: url(../../assets/images/background/login-bg.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -12107,7 +12017,6 @@ table.dataTable thead .sorting::after {
   flex-direction: column; }
 
 #userLock-page1 body {
-  background: url(../../assets/images/background/user-lock-bg.jpg);
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
