@@ -2,8 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   mode: 'history',
-  linkActiveClass: 'active',
-  linkExactActiveClass: '',
+  linkActiveClass: '',
+  linkExactActiveClass: 'active',
   history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
@@ -22,8 +22,13 @@ const router = createRouter({
         {
           path: '/barcode',
           component: () => import('../views/Barcode'),
-        }
+        },
       ],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/Login'),
     },
   ],
 });
