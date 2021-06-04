@@ -14,10 +14,18 @@ class ReceiptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $receipts = Receipts::get();
-        return response(['receipts' => $receipts], 200);
+        if ($request->carrier) {
+            $receipts = Receipts::where('carrier', $request->carrier)
+                                ->get();
+
+            if (count($receipts) == 0) return response(['code' => 9002, 'error' => 'no record'], 200);
+
+            return response(['receipts' => $receipts], 200);
+        }
+
+        return response(['code' => 9001, 'error' => 'missing argument(carrier)'], 200);
     }
 
     /**

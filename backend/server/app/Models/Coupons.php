@@ -16,7 +16,6 @@ class Coupons extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'uuid',
         'seller_id',
         'title',
         'detail',

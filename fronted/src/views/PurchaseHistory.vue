@@ -8,7 +8,7 @@
             <div class="card-body">
               <div class="card-title-a">消費清單</div>
               <div class="table-responsive">
-                <table id="myTable" class="table table-hover table-bordered zero-configuration">
+                <table id="receipts" class="table table-hover table-bordered zero-configuration">
                   <thead>
                     <tr>
                       <th>商店</th>
@@ -22,120 +22,6 @@
                       <td>全家便利商店股份有限公司</td>
                       <td><span class="badge-primar">NG12345678</span></td>
                       <td>199</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣迪卡儂</td>
-                      <td><span class="badge-primar">NG13467677</span></td>
-                      <td>299</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>7-ELEVEN</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>87</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣中油</td>
-                      <td><span class="badge-primar">NG13489721</span></td>
-                      <td>100</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>全家便利商店股份有限公司</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>199</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣迪卡儂</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>299</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>7-ELEVEN</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>87</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣中油</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>100</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>全家便利商店股份有限公司</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>199</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣迪卡儂</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>299</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>7-ELEVEN</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>87</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣中油</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>100</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>全家便利商店股份有限公司</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>199</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣迪卡儂</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>299</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>7-ELEVEN</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>87</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣中油</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>100</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>全家便利商店股份有限公司</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>199</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣迪卡儂</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>299</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>7-ELEVEN</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>87</td>
-                      <td>110/05/13</td>
-                    </tr>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>台灣中油</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>100</td>
                       <td>110/05/13</td>
                     </tr>
                   </tbody>
@@ -155,7 +41,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
 import "datatables.net-dt/js/dataTables.dataTables"
-import $ from 'jquery'; 
+import $ from 'jquery';
 
 export default {
   props: ['backgroundMaskActive'],
@@ -168,11 +54,22 @@ export default {
     changeBackgroundMask(bool) {
       this.backgroundMaskActive(bool);
     },
+
+    getReceipts() {
+      this.$axios
+        .get('http://127.0.0.1:8000/api/receipts/' + 'X6zv6Ll5Ox')
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   mounted() {
-    $('#myTable').DataTable();
+    $('#receipts').DataTable();
   },
 };
 </script>
 
-<style scoped src="../assets/css/dataTables.bootstrap4.min.css"></style>
+<!--<style scoped src="../assets/css/dataTables.bootstrap4.min.css"></style>-->
