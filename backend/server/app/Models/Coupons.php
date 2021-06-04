@@ -10,4 +10,8 @@ class Coupons extends Model
     use HasFactory;
 
     protected $primaryKey = 'coupon_barcode';
+
+    protected $keyType = 'string';
+    
+    public $incrementing = false;
 }

@@ -28,42 +28,43 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $receipt = Receipts::create($request->all());
+    	return response($receipt, 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Receipts  $Receipts
+     * @param  \App\Models\Receipts  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function show(Receipts $Receipts)
+    public function show(Receipts $receipt)
     {
-        return response($Receipts, 200);
+        return response($receipt, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Receipts  $Receipts
+     * @param  \App\Models\Receipts  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Receipts $Receipts)
+    public function update(Request $request, Receipts $receipt)
     {
-        $Receipts->update($request->all());
-        return response($Receipts, 200);
+        $receipt->update($request->all());
+        return response($receipt, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Receipts  $Receipts
+     * @param  \App\Models\Receipts  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Receipts $Receipts)
+    public function destroy(Receipts $receipt)
     {
-        $Receipts->delete();
+        $receipt->delete();
         return response(null, 204);
     }
 }
