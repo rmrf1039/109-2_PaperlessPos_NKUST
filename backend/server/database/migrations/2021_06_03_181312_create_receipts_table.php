@@ -21,6 +21,8 @@ class CreateReceiptsTable extends Migration
             $table->string('carrier', 10)->nullable();
             $table->double('amount', 22, 0)->unsigned()->nullable(false);
             $table->timestamps();
+
+            $table->foreign('carrier')->references('carrier')->on('users');
         });
     }
 

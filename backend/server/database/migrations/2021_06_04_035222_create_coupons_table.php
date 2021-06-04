@@ -22,6 +22,9 @@ class CreateCouponsTable extends Migration
             $table->dateTime('expired_date')->nullable(false);
             $table->boolean('used');
             $table->timestamps();
+            
+            $table->foreign('carrier')->references('carrier')->on('users');
+
         });
     }
 
