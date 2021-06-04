@@ -20,6 +20,7 @@ class CreateCouponsTable extends Migration
             $table->dateTime('exp_date')->nullable(false);
             $table->String('notice',10)->nullable();
             $table->String('coupon_barcode',20)->primary();
+            $table->string('carrier_num', 10)->nullable();
         });
     }
 

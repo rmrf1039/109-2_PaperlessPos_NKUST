@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Coupons;
 use Illuminate\Http\Request;
@@ -16,7 +16,8 @@ class CouponController extends Controller
      */
     public function index()
     {
-        //
+        $coupons = Coupons::get();
+        return response(['coupons' => $coupons], 200);
     }
 
     /**
@@ -33,10 +34,10 @@ class CouponController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Coupons  $Coupons
      * @return \Illuminate\Http\Response
      */
-    public function show(Coupon $coupon)
+    public function show(Coupons $coupons)
     {
         //
     }
@@ -45,10 +46,10 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Coupons  $Coupons
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(Request $request, Coupons $Coupons)
     {
         //
     }
@@ -56,10 +57,10 @@ class CouponController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  \App\Models\Coupons  $Coupons
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy(Coupons $Coupons)
     {
         //
     }

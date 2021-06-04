@@ -11,6 +11,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'receipt' => ReceiptController::class,
-    'coupon' => CouponController::class,
+    'receipts' => ReceiptController::class,
+    'coupons' => CouponController::class,
 ]);
