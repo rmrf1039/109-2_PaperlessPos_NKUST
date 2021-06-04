@@ -14,4 +14,13 @@ class Coupons extends Model
     protected $keyType = 'string';
     
     public $incrementing = false;
+
+    protected $fillable = [
+			'sales_acc',
+			'coupon_name',
+			'exp_date',
+			'notice',
+			'coupon_barcode',
+			'carrier_num',
+		];
 }
