@@ -18,7 +18,7 @@ class CreateReceiptsTable extends Migration
             $table->string('seller_id', 15)->nullable(false);
             $table->json('detail')->nullable(false);
             $table->string('uniform_num', 8)->nullable();
-            $table->string('carrier', 10)->nullable();
+            $table->string('carrier', 8)->nullable();
             $table->double('amount', 22, 0)->unsigned()->nullable(false);
             $table->timestamps();
 

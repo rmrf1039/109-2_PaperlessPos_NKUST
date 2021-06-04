@@ -16,7 +16,6 @@ class Receipts extends Model
     public $incrementing = false;
 
     protected $fillable = [
-			'number',
 			'seller_id',
 			'detail',
 			'uniform_num',
