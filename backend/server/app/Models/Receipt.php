@@ -9,5 +9,5 @@ class Receipt extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'taxID_num';
+    protected $primaryKey = 'receipt_num';
 }
