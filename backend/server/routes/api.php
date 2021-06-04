@@ -10,7 +10,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResources([
-    'receipt' => ReceiptController::class,
-    'coupon' => CouponController::class,
-]);
+Route::apiResource('/recipt','App\Http\Controllers\API\ReciptController');

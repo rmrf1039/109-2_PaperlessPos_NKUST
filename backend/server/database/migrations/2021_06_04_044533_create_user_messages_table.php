@@ -15,7 +15,7 @@ class CreateUserMessagesTable extends Migration
     {
 	    Schema::create('user_messages', function (Blueprint $table) {
 		    $table->timestamps();
-            $table->String('phone_num',10);
+            $table->String('phone_num',10)->unique();
             $table->String('password',20);
             $table->String('carrier_num',10)->primary();
         });

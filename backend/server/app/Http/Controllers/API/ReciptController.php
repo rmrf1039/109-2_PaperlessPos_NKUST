@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Models\Coupon;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Recipt;
+use Symfony\Component\HttpFoundation\Response;
 
-class CouponController extends Controller
+class ReciptController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -25,16 +27,17 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $recipt = Recipt::create($request->all());
+    	return response($recipt, Response::HTTP_CREATED);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Coupon $coupon)
+    public function show($id)
     {
         //
     }
@@ -43,10 +46,10 @@ class CouponController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Coupon  $coupon
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Coupon $coupon)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -54,11 +57,12 @@ class CouponController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Coupon  $coupon
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Coupon $coupon)
+    public function destroy(Recipt $recipt)
     {
-        //
+	    $recipt->delete();
+	    return response(null, Response::HTTP_NO_CONTENT);
     }
 }

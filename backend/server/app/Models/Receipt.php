@@ -9,5 +9,13 @@ class Receipt extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'taxID_num';
+    protected $primaryKey = 'receipt_num';
+    protected $fillable = [
+		'txn_amount',
+		'txn_detail',
+		'sales_acc',
+		'taxID_num',
+		'receipt_num',
+		'carrier_num',
+	];
 }
