@@ -36,7 +36,7 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
-        //
+        return response($receipt, Response::HTTP_OK);
     }
 
     /**
