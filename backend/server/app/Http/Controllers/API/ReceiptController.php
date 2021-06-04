@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Models\Receipts;
 use Illuminate\Http\Request;
-use App\Models\Receipt;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\Controller;
+use Response;
 
 class ReceiptController extends Controller
 {
@@ -16,7 +16,8 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        
+        $receipts = Receipts::get();
+        return response(['receipts' => $receipts], 200);
     }
 
     /**
@@ -27,42 +28,42 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        $receipt = Recipt::create($request->all());
-    	return response($receipt, Response::HTTP_CREATED);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Receipt  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Receipt $receipt)
     {
-        //
+        return response($receipt, 200);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Receipt  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Receipt $receipt)
     {
-        //
+        $receipt->update($request->all());
+        return response($receipt, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Receipt  $receipt
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Recipt $receipt)
+    public function destroy(Receipt $receipt)
     {
-	    $receipt->delete();
-	    return response(null, Response::HTTP_NO_CONTENT);
+        $receipt->delete();
+        return response(null, 204);
     }
 }
