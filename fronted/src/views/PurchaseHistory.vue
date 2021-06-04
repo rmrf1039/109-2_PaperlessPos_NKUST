@@ -18,11 +18,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr onclick="document.location='receipt_detail.html'">
-                      <td>全家便利商店股份有限公司</td>
-                      <td><span class="badge-primar">NG12345678</span></td>
-                      <td>199</td>
-                      <td>110/05/13</td>
+                    <tr v-for="receipt in receipts" :key="receipt.number">
+                      <td>{{ receipt.seller_id }}</td>
+                      <td><span class="badge-primar">{{ receipt.number }}</span></td>
+                      <td>{{ receipt.amount }}</td>
+                      <td>{{ receipt.created_at }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -35,41 +35,49 @@
   </div>
 </template>
 
+<style src="../assets/css/dataTables.bootstrap4.min.css"></style>
+
 <script>
 //Bootstrap and jQuery libraries
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
-import "datatables.net-dt/js/dataTables.dataTables"
+import 'datatables.net-dt/js/dataTables.dataTables';
 import $ from 'jquery';
 
 export default {
-  props: ['backgroundMaskActive'],
+  props: ['backgroundMaskActive', 'carrier'],
   data() {
     return {
       class: {},
+      receipts: {}
     };
   },
+  mounted() {
+    this.getReceipts();
+  },
+  updated() {
+    $('#receipts').DataTable();
+  },
   methods: {
-    changeBackgroundMask(bool) {
-      this.backgroundMaskActive(bool);
-    },
-
     getReceipts() {
       this.$axios
-        .get('http://127.0.0.1:8000/api/receipts/' + 'X6zv6Ll5Ox')
+        .get('http://127.0.0.1:8000/api/receipts/', {
+          params: {
+            carrier: this.carrier,
+          },
+        })
         .then((response) => {
-          console.log(response);
+          this.receipts = response.data.receipts;
+          $('#receipts').DataTable().destroy();
         })
         .catch((error) => {
           console.log(error);
         });
     },
-  },
-  mounted() {
-    $('#receipts').DataTable();
+
+    changeBackgroundMask(bool) {
+      this.backgroundMaskActive(bool);
+    },
   },
 };
 </script>
-
-<!--<style scoped src="../assets/css/dataTables.bootstrap4.min.css"></style>-->

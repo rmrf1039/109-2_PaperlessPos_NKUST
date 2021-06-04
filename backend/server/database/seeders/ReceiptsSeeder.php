@@ -21,7 +21,7 @@ class ReceiptsSeeder extends Seeder
             'seller_id' => '001',
             'detail' => Str::random(19),
             'uniform_num' => '76014406',
-            'carrier' => '/EdwinLv',
+            'carrier' => '/1ZXCASD',
             'amount' => mt_rand(1, 9999),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
