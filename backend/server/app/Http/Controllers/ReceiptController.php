@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Receipt;
 use Illuminate\Http\Request;
+use Response;
 
 class ReceiptController extends Controller
 {
@@ -14,7 +15,8 @@ class ReceiptController extends Controller
      */
     public function index()
     {
-        //
+        $receipts = Receipt::get();
+        return response(['receipts' => $receipts], 200);
     }
 
     /**
@@ -36,7 +38,7 @@ class ReceiptController extends Controller
      */
     public function show(Receipt $receipt)
     {
-        return response($receipt, Response::HTTP_OK);
+        return response($receipt, 200);
     }
 
     /**

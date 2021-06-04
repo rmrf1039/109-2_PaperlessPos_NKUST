@@ -17,7 +17,7 @@ class CreateUserMessagesTable extends Migration
 		    $table->timestamps();
             $table->String('phone_num',10);
             $table->String('password',20);
-            $table->String('carrier_num',10);
+            $table->String('carrier_num',10)->primary();
         });
     }
 
