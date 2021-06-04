@@ -6,6 +6,7 @@ use App\Models\Coupons;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Response;
+use Illuminate\Support\Str;
 
 class CouponsController extends Controller
 {
@@ -28,7 +29,7 @@ class CouponsController extends Controller
      */
     public function store(Request $request)
     {
-        $coupon = Coupons::create($request->all());
+	    $coupon = Coupons::create($request->all());
     	return response($coupon, 200);
     }
 
