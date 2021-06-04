@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Recipt;
+use App\Models\Receipt;
 use Symfony\Component\HttpFoundation\Response;
 
-class ReciptController extends Controller
+class ReceiptController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,8 +27,8 @@ class ReciptController extends Controller
      */
     public function store(Request $request)
     {
-        $recipt = Recipt::create($request->all());
-    	return response($recipt, Response::HTTP_CREATED);
+        $receipt = Recipt::create($request->all());
+    	return response($receipt, Response::HTTP_CREATED);
     }
 
     /**
@@ -60,9 +60,9 @@ class ReciptController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Recipt $recipt)
+    public function destroy(Recipt $receipt)
     {
-	    $recipt->delete();
+	    $receipt->delete();
 	    return response(null, Response::HTTP_NO_CONTENT);
     }
 }

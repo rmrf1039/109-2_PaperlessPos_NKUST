@@ -14,14 +14,12 @@ class CreateCouponsTable extends Migration
     public function up()
     {
         Schema::create('coupons', function (Blueprint $table) {
-		$table->timestamps();
-		$table->String('sales_acc',15);
-            $table->String('coupon_name',20);
-            $table->dateTime('exp_date');
+            $table->timestamps();
+            $table->String('sales_acc',15)->nullable(false);
+            $table->String('coupon_name',20)->nullable(false);
+            $table->dateTime('exp_date')->nullable(false);
             $table->String('notice',10)->nullable();
             $table->String('coupon_barcode',20)->primary();
-            
-
         });
     }
 
