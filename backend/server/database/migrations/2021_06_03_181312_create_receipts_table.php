@@ -14,13 +14,13 @@ class CreateReceiptsTable extends Migration
     public function up()
     {
         Schema::create('receipts', function (Blueprint $table) {
+            $table->string('number', 10)->primary();
+            $table->string('seller_id', 15)->nullable(false);
+            $table->json('detail')->nullable(false);
+            $table->string('uniform_num', 8)->nullable();
+            $table->string('carrier', 10)->nullable();
+            $table->double('amount', 22, 0)->unsigned()->nullable(false);
             $table->timestamps();
-            $table->double('txn_amount', 22, 0)->unsigned()->nullable(false);
-            $table->json('txn_detail')->nullable(false);
-            $table->string('sales_acc', 15)->nullable(false);
-            $table->string('taxID_num', 8)->nullable();
-            $table->string('receipt_num', 10)->primary();
-            $table->string('carrier_num', 10)->nullable();
         });
     }
 
