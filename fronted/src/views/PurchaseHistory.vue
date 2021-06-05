@@ -32,12 +32,17 @@
         </div>
       </div>
     </div>
+    <TLEBModuleModel></TLEBModuleModel>
   </div>
+
+  
 </template>
 
 <style src="../assets/css/dataTables.bootstrap4.min.css"></style>
 
 <script>
+import TLEBModuleModel from '../components/receiptDetail'
+
 //Bootstrap and jQuery libraries
 import 'jquery/dist/jquery.min.js';
 //Datatable Modules
@@ -46,6 +51,9 @@ import $ from 'jquery';
 
 export default {
   props: ['backgroundMaskActive', 'carrier'],
+  components: {
+    TLEBModuleModel
+  },
   data() {
     return {
       class: {},
@@ -54,6 +62,7 @@ export default {
   },
   mounted() {
     this.getReceipts();
+    //this.changeBackgroundMask(true);
   },
   updated() {
     $('#receipts').DataTable();
