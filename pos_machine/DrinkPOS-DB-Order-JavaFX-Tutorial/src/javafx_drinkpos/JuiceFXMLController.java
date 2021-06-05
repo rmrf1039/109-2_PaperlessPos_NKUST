@@ -40,7 +40,7 @@ import models.OrderDetail;
 import models.Product;
 import models.ProductDAO;
 import models.ReciptDAO;
-import models.Recipt;
+import models.Receipt;
 
 public class JuiceFXMLController implements Initializable {
 
@@ -421,7 +421,7 @@ public class JuiceFXMLController implements Initializable {
             String new_order_num = "ord-" + serial_num;
             //將發票號碼匯入資料庫
             if (chk==true||acc_addr==false){
-                Recipt rec = new Recipt();
+                Receipt rec = new Receipt();
                 rec.setAccount(acc);
                 rec.setTransaction_amount(sum);
                 rec.setRecipt_num(recipt_num);

@@ -20,11 +20,11 @@ public class ReciptDAO {
 
     private Connection conn;
 
-    public List<Recipt> getAllRecipts(String Account) {
+    public List<Receipt> getAllRecipts(String Account) {
 
         conn = DBConnection.getConnection();
         String query = "select * from gov_recipt where account = ?";
-        List<Recipt> acc_recipt = new ArrayList();
+        List<Receipt> acc_recipt = new ArrayList();
 
         try {
             PreparedStatement state = conn.prepareStatement(query);
@@ -32,7 +32,7 @@ public class ReciptDAO {
             ResultSet rset = state.executeQuery();
 
             while (rset.next()) {
-                Recipt recipt = new Recipt();
+                Receipt recipt = new Receipt();
                 recipt.setAccount(rset.getString("account"));
                 recipt.setTransaction_date(rset.getString("transaction_date"));
                 recipt.setTransaction_amount(rset.getInt("transaction_amount"));
@@ -49,7 +49,7 @@ public class ReciptDAO {
         return acc_recipt;
     }
 
-    public boolean insert(Recipt recipt) {
+    public boolean insert(Receipt recipt) {
         conn = DBConnection.getConnection();
         String query = "insert into gov_recipt(account,"
                 + "transaction_amount,recipt_num,currency) VALUES (?,?,?,?)";
@@ -92,11 +92,11 @@ public class ReciptDAO {
 
     public static void main(String[] args) {
         ReciptDAO dao = new ReciptDAO();
-        Recipt recipt = new Recipt("/1**OJHQ","NF80566859",100.0,"TWD");
-        List<Recipt> acc_recipt= dao.getAllRecipts("/1S**JHQ");
+        Receipt recipt = new Receipt("/1**OJHQ","NF80566859",100.0,"TWD");
+        List<Receipt> acc_recipt= dao.getAllRecipts("/1S**JHQ");
         System.out.println(dao.insert(recipt));
         //System.out.println(dao.delete("NF80566859"));
-        for (Recipt my_recipt : acc_recipt){
+        for (Receipt my_recipt : acc_recipt){
             System.out.println(my_recipt);
         }
     }
