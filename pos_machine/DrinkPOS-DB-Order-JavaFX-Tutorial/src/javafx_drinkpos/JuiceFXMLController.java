@@ -39,7 +39,7 @@ import models.OrderDAO;
 import models.OrderDetail;
 import models.Product;
 import models.ProductDAO;
-import models.ReciptDAO;
+import models.ReceiptDAO;
 import models.Receipt;
 
 public class JuiceFXMLController implements Initializable {
@@ -80,9 +80,11 @@ public class JuiceFXMLController implements Initializable {
     //***********產生資料DAO來使用
     ProductDAO productDao = new ProductDAO();
     OrderDAO orderDao = new OrderDAO();
-    ReciptDAO reciptDao = new ReciptDAO();
+    ReceiptDAO receiptDao = new ReceiptDAO();
     @FXML
     private TextField acc_input;
+    @FXML
+    private TextField uni_input;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -370,38 +372,88 @@ public class JuiceFXMLController implements Initializable {
         return recipt_num;
     }
 
+    private boolean check_uni(String id) {
+        if (id == null || id.length() != 8) {
+            return false;
+        }
+        try {
+            int v[] = {1, 2, 1, 2, 1, 2, 4, 1};
+            int temp = 0;
+            int sum = 0;
+            for (int i = 0; i < v.length; i++) {
+                temp = Integer.parseInt(String.valueOf(id.charAt(i))) * v[i];
+                sum = sum + temp / 10 + temp % 10;
+            }
+            if (sum % 10 == 0 || (id.charAt(6) == '7' && ((sum - 1) % 10 == 0))) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     //結帳*******************這裡寫入訂單明細到資料庫
     @FXML
     private void check(ActionEvent event) {
         int sum = check_total();
         if (sum != 0) {
             String acc = acc_input.getText();
+            String uni = uni_input.getText();
             int acc_len = acc_input.getLength();
-            boolean chk = textCheck(acc); //確認載具是否含有非法字元
+            int uni_len = uni_input.getLength();
+            boolean acc_chk = textCheck(acc); //確認載具是否含有非法字元
+            //boolean uni_chk = check_uni(uni); //   ''    統編
             boolean acc_addr = false; //是否使用載具
-            
+            boolean uni_addr = true; //    ''          統編
+
+            //分辨有無載具
             if (acc_len == 0) {
                 acc_addr = false;
-                chk = true;
+                acc_chk = true;
             } else if (acc_len == 8) {
                 acc_addr = true;
             } else {
-                chk = false;
+                acc_chk = false;
                 display.setText("錯誤，請檢查載具是否錯誤");
                 //System.out.println(acc);
             }
-            //分辨有無載具
+            //分辨有無統編
+            if (uni_len == 0) {
+                uni_addr = false; //不使用統編
+                acc_chk = true; //免確認統編
+            } else if (acc_len == 8) {
+                acc_addr = true;    //使用統編，前面已檢驗統編
+            } else {
+                display.setText("錯誤，請檢查統編是否錯誤");    //統編錯誤
+            }
             String recipt_num = recipt_num_gen(); //到此步驟確認無載具問題，產生發票號碼
-            if (chk == true && acc_addr == false) {
+
+            if (acc_chk == true && acc_addr == false
+                    && uni_addr == false) {  //無載具，無統編
                 display.setText("已結帳，發票列印中...\n");
                 display.appendText("發票號碼 : " + recipt_num + "\n");
-            } else if (chk == true && acc_addr == true) {
+            } else if (acc_chk == true && acc_addr == false
+                    && uni_addr == true) {   //無載具，有統編
+                display.setText("已結帳，發票列印中...\n");
+                display.appendText("發票號碼 : " + recipt_num + "\n");
+                display.appendText("統一編號 : " + uni + "\n");
+            } else if (acc_chk == true && acc_addr == true
+                    && uni_addr == false) {  //有載具，無統編
                 String msg = String.format("已結帳\n發票明細已儲存至載具\n(%s)", acc);
                 display.setText(msg);
                 System.out.println(acc);
+            } else if (acc_chk == true && acc_addr == true
+                    && uni_addr == true) {   //有載具，有統編
+                String msg = String.format("已結帳\n發票明細已儲存至載具\n(%s)", acc);
+                display.setText(msg);
+                System.out.println(acc);
+                display.appendText("統一編號 : " + uni + "\n");
             } else {
-                System.out.println("textCheck_FAIL");
+                System.out.println("receipt/uni ERROR");
             }
+
             //append_order_to_csv(); //將這一筆訂單附加儲存到檔案或資料庫
             //這裡要取得不重複的order_num編號
             String order_num = orderDao.getMaxOrderNum();
@@ -419,14 +471,17 @@ public class JuiceFXMLController implements Initializable {
 
             //每家公司都有其訂單或產品的編號系統，這裡用ord-xxx表之
             String new_order_num = "ord-" + serial_num;
+
             //將發票號碼匯入資料庫
-            if (chk==true||acc_addr==false){
+            if (acc_chk == true && acc_addr == true) {
                 Receipt rec = new Receipt();
-                rec.setAccount(acc);
-                rec.setTransaction_amount(sum);
-                rec.setRecipt_num(recipt_num);
-                rec.setCurrency("TWD");
-                reciptDao.insert(rec);
+                rec.setCarrier(acc);
+                rec.setAmount(sum);
+                rec.setNumber(recipt_num);
+                rec.setUniform_num(uni);
+                rec.setSeller_id("42087420");
+                rec.setDetail("none");
+                receiptDao.insert(rec);
             }
             //Cart crt = new Cart(new_order_num, "2021-05-01", 123, userName);
             Order crt = new Order();

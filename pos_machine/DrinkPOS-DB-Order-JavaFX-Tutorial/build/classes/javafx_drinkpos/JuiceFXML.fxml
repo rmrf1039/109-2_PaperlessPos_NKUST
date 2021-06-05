@@ -51,26 +51,32 @@
                         <TableView fx:id="table" prefHeight="270.0" prefWidth="320.0" />
                      </children>
                   </AnchorPane>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="320.0" spacing="10.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="53.0" prefWidth="320.0" spacing="10.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#delete_row" prefHeight="31.0" prefWidth="107.0" styleClass="danger" text="刪除此筆" />
                         <Button mnemonicParsing="false" onAction="#delete_order" prefHeight="31.0" prefWidth="107.0" styleClass="danger" text="刪除訂單" />
                      </children>
                   </HBox>
-                  <AnchorPane prefHeight="81.0" prefWidth="320.0">
+                  <AnchorPane prefHeight="103.0" prefWidth="320.0">
                      <children>
                         <TextArea fx:id="display" editable="false" layoutX="-1.0" prefHeight="96.0" prefWidth="320.0" style="-fx-font-size: 20;" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="120.0" prefWidth="320.0">
+                  <AnchorPane prefHeight="172.0" prefWidth="320.0">
                      <children>
-                        <Button layoutX="58.0" layoutY="57.0" mnemonicParsing="false" onAction="#check" prefHeight="58.0" prefWidth="186.0" style="-fx-pref-height: 50;" styleClass="success" text="結帳" />
+                        <Button layoutX="67.0" layoutY="88.0" mnemonicParsing="false" onAction="#check" prefHeight="58.0" prefWidth="186.0" style="-fx-pref-height: 50;" styleClass="success" text="結帳" />
                         <TextField fx:id="acc_input" layoutX="115.0" layoutY="14.0" prefHeight="38.0" prefWidth="199.0" />
                         <Text layoutX="8.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="雲端載具" textAlignment="CENTER">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Text>
+                        <Text layoutX="8.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="統一編號" textAlignment="CENTER">
+                           <font>
+                              <Font size="22.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="uni_input" layoutX="115.0" layoutY="51.0" prefHeight="38.0" prefWidth="199.0" />
                      </children>
                   </AnchorPane>
                </children>
