@@ -10,7 +10,7 @@
                 <hr />
                 <div class="mb-4">結帳時請出示給店員掃描</div>
                 <img class="mb-4" width="200" src="/assets/images/code.png" />
-                <div class="mb-3">手機條碼：/-Q7A123</div>
+                <div class="mb-3">手機條碼：{{ carrier }}</div>
               </div>
               <div class="text-center">
                 <input type="button" onclick="javascript:history.go(-1);" class="btn print submit w-25" value="回上頁" />
@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  props: ['backgroundMaskActive', 'carrier'],
   data() {
     return {
       

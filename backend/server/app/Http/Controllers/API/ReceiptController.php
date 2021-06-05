@@ -14,26 +14,28 @@ class ReceiptController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+  
 public function index(Request $request)
 {
-	$limit = $request->limit>0 ? $request->limit:0;
-	if ($request->carrier) {
-		if ($request->limit == 0){
-			$receipts = Receipts::where('carrier', $request->carrier)
-								->get();
-		}else {
-            		$receipts = Receipts::where('carrier', $request->carrier)
-							   	->limit($limit)
-							   	->get();
-		}
+    $limit = $request->limit > 0 ? $request->limit : 0;
 
-            if (count($receipts) == 0) return response(['code' => 9002, 'error' => 'no record'], 200);
-
-            return response(['receipts' => $receipts], 200);
+    if ($request->carrier) {
+        if ($limit == 0){
+            $receipts = Receipts::where('carrier', $request->carrier)
+                      ->get();
+        }else {
+            $receipts = Receipts::where('carrier', $request->carrier)
+                      ->limit($limit)
+                      ->get();
         }
-
-        return response(['code' => 9001, 'error' => 'missing argument(carrier)'], 200);
     }
+
+    if (count($receipts) == 0) return response(['code' => 9002, 'error' => 'no record'], 200);
+        return response(['receipts' => $receipts], 200);
+    }
+
+    return response(['code' => 9001, 'error' => 'missing argument(carrier)'], 200);
+}
 
     /**
      * Store a newly created resource in storage.

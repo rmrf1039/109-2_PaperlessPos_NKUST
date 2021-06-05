@@ -49,7 +49,7 @@
     </div>
 
     <!--Content body-->
-    <router-view :backgroundMaskActive="changeBackgroundMask" />
+    <router-view :backgroundMaskActive="changeBackgroundMask" :carrier="carrier"/>
   </div>
 
   <div id="background-cover" class="frosted-background" :class="{ backgroundMaskActive: backgroundMaskActive }"></div>
@@ -95,6 +95,7 @@ export default {
       class: {
         menu: false,
       },
+      carrier: ''
     };
   },
   methods: {
@@ -104,6 +105,13 @@ export default {
     changeBackgroundMask(request) {
       this.backgroundMaskActive = request;
     },
+  },
+  created() {
+    if (this.$cookie.getCookie("carrier") == null) {
+      this.$cookie.setCookie("carrier", "/1ZXCASD")
+    }
+
+    this.carrier = this.$cookie.getCookie("carrier");
   },
 };
 </script>
