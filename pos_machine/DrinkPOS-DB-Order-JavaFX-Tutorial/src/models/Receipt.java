@@ -20,15 +20,13 @@ public class Receipt {
     private String createdDate;
     private String updatedDate;
 
-    public Receipt(String number, String seller_id, String detail, String uniform_num, String carrier, double amount, String createdDate, String updatedDate) {
+    public Receipt(String number, String seller_id, String detail, String uniform_num, String carrier, double amount) {
         this.number = number;
         this.seller_id = seller_id;
         this.detail = detail;
         this.uniform_num = uniform_num;
         this.carrier = carrier;
         this.amount = amount;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
     }
 
     public String getCreatedDate() {
