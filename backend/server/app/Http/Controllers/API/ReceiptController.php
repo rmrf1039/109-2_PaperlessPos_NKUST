@@ -16,11 +16,16 @@ class ReceiptController extends Controller
      */
 public function index(Request $request)
 {
-	$limit = $request->limit==null ? 10:$request->limit;
-        if ($request->carrier) {
-            $receipts = Receipts::where('carrier', $request->carrier)
-							   ->limit($limit)
-							   ->get();
+	$limit = $request->limit>0 ? $request->limit:0;
+	if ($request->carrier) {
+		if ($request->limit == 0){
+			$receipts = Receipts::where('carrier', $request->carrier)
+								->get();
+		}else {
+            		$receipts = Receipts::where('carrier', $request->carrier)
+							   	->limit($limit)
+							   	->get();
+		}
 
             if (count($receipts) == 0) return response(['code' => 9002, 'error' => 'no record'], 200);
 
