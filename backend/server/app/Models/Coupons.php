@@ -16,11 +16,11 @@ class Coupons extends Model
 
     protected $fillable = [
         'uuid',
-	      'seller_id',
+	    'seller_id',
         'title',
         'detail',
         'carrier',
-	'expired_date',
-	'used',
+        'expired_date',
+        'used',
     ];
 }
