@@ -4,7 +4,10 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javafx.collections.FXCollections;
@@ -41,6 +44,8 @@ import models.Product;
 import models.ProductDAO;
 import models.ReceiptDAO;
 import models.Receipt;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class JuiceFXMLController implements Initializable {
 
@@ -372,7 +377,7 @@ public class JuiceFXMLController implements Initializable {
         String recipt_num = String.format("%s" + "%08d", track, num);
         return recipt_num;
     }
-    */
+     */
     //統編檢查
     /*
     private boolean check_uni(String id) {
@@ -396,7 +401,6 @@ public class JuiceFXMLController implements Initializable {
             return false;
         }
     }*/
-
     //結帳*******************這裡寫入訂單明細到資料庫
     @FXML
     private void check(ActionEvent event) {
@@ -475,17 +479,6 @@ public class JuiceFXMLController implements Initializable {
             //每家公司都有其訂單或產品的編號系統，這裡用ord-xxx表之
             String new_order_num = "ord-" + serial_num;
 
-            //將發票號碼匯入資料庫
-            if (acc_chk == true && acc_addr == true) {
-                Receipt rec = new Receipt();
-                rec.setCarrier(acc);
-                rec.setAmount(sum);
-                //rec.setNumber(recipt_num);
-                rec.setUniform_num(uni);
-                rec.setSeller_id("42087420");
-                rec.setDetail("none");
-                receiptDao.insert(rec);
-            }
             //Cart crt = new Cart(new_order_num, "2021-05-01", 123, userName);
             Order crt = new Order();
             crt.setOrder_num(new_order_num);
@@ -495,10 +488,15 @@ public class JuiceFXMLController implements Initializable {
             crt.setCustomer_address("無地址");
             //crt.setRecipt_num(recipt_num); //寫入一筆訂單道資料庫
             orderDao.insertCart(crt);
+            JSONArray arr = new JSONArray();
 
             //逐筆寫入訂單明細
             for (int i = 0; i < order_list.size(); i++) {
                 OrderDetail item = new OrderDetail();
+                Map detail = new HashMap();
+                detail.put("name", order_list.get(i).getProduct_name());
+                detail.put("quantity", order_list.get(i).getQuantity());
+                detail.put("unit_price", order_list.get(i).getProduct_price());
                 item.setOrder_num(new_order_num); //設定訂單編號
                 item.setProduct_id(order_list.get(i).getProduct_id()); //設定產品編號
                 item.setQuantity(order_list.get(i).getQuantity());//設定訂購數量 多少杯
@@ -506,12 +504,26 @@ public class JuiceFXMLController implements Initializable {
                 item.setProduct_name(order_list.get(i).getProduct_name());//產品名稱 建議不要這個欄位 不符合正規化
                 //item.setRecipt_num(order_list.get(i).getRecipt_num());//取得發票號碼
 
+                JSONObject detailJson = new JSONObject(detail);
+                arr.put(detailJson);
                 orderDao.insertOrderDetailItem(item);
+                System.out.println(arr);
+            }
+            if (acc_chk == true && acc_addr == true) {
+                Receipt rec = new Receipt();
+                rec.setCarrier(acc);
+                rec.setAmount(sum);
+                //rec.setNumber(recipt_num);
+                rec.setUniform_num(uni);
+                rec.setSeller_id("42087420");
+                rec.setDetail(arr.toString());
+                receiptDao.insert(rec);
             }
             order_list.clear();
         } else {
             display.setText("購物車是空的\n將商品加入購物車再結帳吧！");
         }
+        //將發票號碼匯入資料庫
 
     }
 
