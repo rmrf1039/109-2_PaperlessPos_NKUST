@@ -27,68 +27,21 @@ import org.json.JSONObject;
 public class CouponDAO {
 
     private HttpURLConnection conn;
+    private String url = "http://mbeutwen.ddns.net:8000/api/coupons";
 
-    public List<Coupon> selectByTitle(String title) {
+
+
+    public List<Coupon> selectByCarrier(String carrier,int flag) {
         List<Coupon> acc_coupon = new ArrayList();
-
+        String param;
         try {
-
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons?"
-                    + "seller_id=42087420&title=%s", title);
-            URL connUrl = new URL(url);
-            conn = (HttpURLConnection) connUrl.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
+            if (flag==1){
+                param = String.format("?seller_id=42087420&carrier=%s", carrier);
+            }else {
+                param = String.format("?seller_id=42087420&title=%s", carrier);
             }
-
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(
-                            (conn.getInputStream())));
-            //JSON字串處理
-            JSONObject output;
-            output = new JSONObject(br.readLine());
-            JSONArray arr = output.getJSONArray("coupons");
-            System.out.println(output);
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject obj = arr.getJSONObject(i);
-                Coupon coupon = new Coupon();
-                coupon.setNum(i + 1);
-                coupon.setSeller_id(obj.get("seller_id").toString());
-                coupon.setTitle(obj.get("title").toString());
-                coupon.setDetail(obj.get("detail").toString());
-                coupon.setCarrier(obj.get("carrier").toString());
-                coupon.setExpired_date(obj.get("expired_date").toString());
-                coupon.setUsed(Integer.parseInt(valueOf(obj.get("used"))));
-
-                acc_coupon.add(coupon);
-
-            }
-        } catch (MalformedURLException ex) {
-            System.out.println("getByTitle時 url異常: " + ex.toString());
-        } catch (IOException ex) {
-            System.out.println("getByTitle時 conn異常: " + ex.toString());
-        } catch (JSONException ex) {
-            System.out.println("getByTitle時 json轉換異常 : " + ex.toString());
-        } catch (Exception ex) {
-            System.out.println("getByTitle時 不明錯誤 : " + ex.toString());
-        }
-
-        return acc_coupon;
-
-    }
-
-    public List<Coupon> selectByCarrier(String carrier) {
-        List<Coupon> acc_coupon = new ArrayList();
-
-        try {
-
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons?"
-                    + "seller_id=42087420&carrier=%s", carrier);
-            URL connUrl = new URL(url);
+            
+            URL connUrl = new URL(url + param);
             conn = (HttpURLConnection) connUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -140,9 +93,8 @@ public class CouponDAO {
 
         try {
 
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons?"
-                    + "seller_id=%s", seller_id);
-            URL connUrl = new URL(url);
+            String param = String.format("?seller_id=%s", seller_id);
+            URL connUrl = new URL(url + param);
             conn = (HttpURLConnection) connUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -192,7 +144,6 @@ public class CouponDAO {
         boolean success = false;
         try {
 
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons");
             URL connUrl = new URL(url);
             conn = (HttpURLConnection) connUrl.openConnection();
             conn.setRequestMethod("POST");
@@ -233,7 +184,7 @@ public class CouponDAO {
         return success;
     }
 
-    public boolean delete(String number) {
+    /*public boolean delete(String number) {
 
         boolean sucess = false;
         try {
@@ -264,8 +215,7 @@ public class CouponDAO {
             System.out.println("delete時 不明錯誤 : " + ex.toString());
         }
         return sucess;
-    }
-
+    }*/
     public static void main(String[] args) {
         CouponDAO dao = new CouponDAO();
         Coupon coupon = new Coupon(

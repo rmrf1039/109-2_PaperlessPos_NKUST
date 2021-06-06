@@ -116,7 +116,6 @@ public class FXMLDocumentController implements Initializable {
     private TextArea log_pane_ord;
     @FXML
     private Pagination pagination_ord;
-    @FXML
     private TextField queryCName;
     @FXML
     private TextField queryCarrier;
@@ -138,6 +137,8 @@ public class FXMLDocumentController implements Initializable {
     private Pagination pagination_cou;
     @FXML
     private TextArea log_pane_coupon;
+    @FXML
+    private TextField queryTitle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -492,7 +493,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void findCouponTitle(ActionEvent event) {
         coupons.clear();
-        coupons = coudao.selectByTitle(queryCName.getText());
+        coupons = coudao.selectByCarrier(queryTitle.getText(),0);
+        System.out.println(queryTitle.getText());
         //orders.add(orddao.selectByPhone(queryPhone.getText()));
         //products = prodao.selectByID(queryID.getText());
         loadTable_cou();
@@ -502,7 +504,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void findCarrier(ActionEvent event) {
         coupons.clear();
-        coupons = coudao.selectByCarrier(queryCarrier.getText());
+        coupons = coudao.selectByCarrier(queryCarrier.getText(),1);
         //orders.add(orddao.selectByPhone(queryPhone.getText()));
         //products = prodao.selectByID(queryID.getText());
         loadTable_cou();
