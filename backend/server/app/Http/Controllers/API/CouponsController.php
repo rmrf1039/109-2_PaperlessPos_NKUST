@@ -17,15 +17,15 @@ class CouponsController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->carrier) {
-            if ($request->seller_id){
-                $coupons = Coupons::where('seller_id', $request->seller_id)
-                                ->where('carrier', $request->carrier)
-                                ->get();
-            }else{
+	    if ($request->seller_id){
+		    $coupons = Coupons::where('seller_id', $request->seller_id)
+			    					->get();
+		    return response(['coupons' => $coupons], 200);
+	    }
+	    
+	    if ($request->carrier) {
                 $coupons = Coupons::where('carrier', $request->carrier)
                                 ->get();
-            }
 
             if (count($coupons) == 0) {
                 return response(['code' => 9002, 'error' => 'no record'], 200);
