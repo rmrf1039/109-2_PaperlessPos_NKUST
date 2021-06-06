@@ -47,17 +47,11 @@ export default {
   methods: {
     submit() {
       this.$axios
-        .post(
-          'http://127.0.0.1:8000/news_rcmd/api_cate_news/',
-          this.$qs.stringify({
-            category: this.inputs.latest_news,
-          }),
-          {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-          }
-        )
+        .post('http://127.0.0.1:8000/api/login', {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        })
         .then((response) => {
           this.latest_news = response.data.latest_news;
         })
