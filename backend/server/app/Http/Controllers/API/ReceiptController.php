@@ -45,7 +45,10 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-        $receipt = Receipts::create($request->all());
+        $gene_info = array("track" => generateRandomString(),
+                           "number" => mt_rand(10000000, 99999999));
+
+	    $receipt = Receipts::create(array_merge($gene_info, $request->all()));
     	return response($receipt, 200);
     }
 
@@ -84,4 +87,12 @@ class ReceiptController extends Controller
         $receipt->delete();
         return response(null, 204);
     }
+}
+
+function generateRandomString($length = 2) {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) $randomString .= $characters[rand(0, $charactersLength - 1)];
+    return $randomString;
 }
