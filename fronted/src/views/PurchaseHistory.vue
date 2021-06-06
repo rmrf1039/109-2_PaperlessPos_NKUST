@@ -18,11 +18,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="receipt in receipts" :key="receipt.number">
+                    <tr @click="displayReceiptDetail(receipt)" v-for="receipt in receipts" :key="receipt.number">
                       <td>{{ receipt.seller_id }}</td>
-                      <td><span class="badge-primar">{{ receipt.number }}</span></td>
+                      <td>
+                        <span class="badge-primar">{{ receipt.number }}</span>
+                      </td>
                       <td>{{ receipt.amount }}</td>
-                      <td>{{ receipt.created_at }}</td>
+                      <td>{{ moment(receipt.created_at).format("YYYY/MM/DD HH:mm") }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -32,16 +34,15 @@
         </div>
       </div>
     </div>
-    <TLEBModuleModel></TLEBModuleModel>
+    <ReceiptDetail v-on:closeReceiptDetail="closeReceiptDetail" :backgroundMaskActive="backgroundMaskActive" :display="this.class.display" :targetedReceipt="targetedReceipt"></ReceiptDetail>
   </div>
-
-  
 </template>
 
 <style src="../assets/css/dataTables.bootstrap4.min.css"></style>
 
 <script>
-import TLEBModuleModel from '../components/receiptDetail'
+import moment from 'moment'
+import ReceiptDetail from '../components/receiptDetail';
 
 //Bootstrap and jQuery libraries
 import 'jquery/dist/jquery.min.js';
@@ -52,17 +53,24 @@ import $ from 'jquery';
 export default {
   props: ['backgroundMaskActive', 'carrier'],
   components: {
-    TLEBModuleModel
+    ReceiptDetail,
   },
   data() {
     return {
-      class: {},
-      receipts: {}
+      class: {
+        display: false,
+      },
+      receipts: {},
+      targetedReceipt: {}
     };
+  },
+  created() {
+    this.moment = moment;
   },
   mounted() {
     this.getReceipts();
-    //this.changeBackgroundMask(true);
+    this.changeBackgroundMask(false);
+    $('#receipts').DataTable();
   },
   updated() {
     $('#receipts').DataTable();
@@ -77,11 +85,25 @@ export default {
         })
         .then((response) => {
           this.receipts = response.data.receipts;
-          $('#receipts').DataTable().destroy();
+          $('#receipts')
+            .DataTable()
+            .destroy();
         })
         .catch((error) => {
           console.log(error);
+          $('#receipts').DataTable();
         });
+    },
+
+    displayReceiptDetail(data) {
+      this.targetedReceipt = data;
+      this.class.display = true;
+      this.changeBackgroundMask(true);
+    },
+
+    closeReceiptDetail() {
+      this.class.display = false;
+      this.changeBackgroundMask(false);
     },
 
     changeBackgroundMask(bool) {

@@ -17,15 +17,13 @@ class ReceiptController extends Controller
   
     public function index(Request $request)
     {
-        $limit = $request->limit > 0 ? $request->limit : 0;
-
         if ($request->carrier) {
-            if ($limit == 0){
+            if ($request->limit){
                 $receipts = Receipts::where('carrier', $request->carrier)
+                        ->limit($request->limit)
                         ->get();
             } else {
                 $receipts = Receipts::where('carrier', $request->carrier)
-                        ->limit($limit)
                         ->get();
             }
 

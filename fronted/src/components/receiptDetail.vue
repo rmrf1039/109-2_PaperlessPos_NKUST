@@ -1,15 +1,14 @@
 <template>
-  <div class="card" id="receipt">
+  <div class="card" id="receipt" :class="{ show: display }">
     <div class="card-body">
       <div>
         <div class="media pt-3 pb-3">
           <img width="80" src="/assets/images/store.png" class="mr-3 rounded-circle" />
           <div class="media-body">
-            <h4 class="card-title-c">FamilyMart</h4>
-            <h4 class="mb-0">NG12345678</h4>
-            <div class="mb-0">2021/05/13 13:37:47</div>
-            <div class="mb-0">統編：12123434</div>
-            <div class="mb-0">門市：全家便利商店股份有限公司高雄市第三九六分公司</div>
+            <h4 class="card-title-c">{{ targetedReceipt.seller_id }}</h4>
+            <h4 class="mb-0">{{ targetedReceipt.number }}</h4>
+            <div class="mb-0">{{ moment(targetedReceipt.created_at).format('YYYY/MM/DD HH:mm') }}</div>
+            <div class="mb-0">統編：{{ targetedReceipt.uniform_num }}</div>
           </div>
           <div>
             <p class="text-right">110年5-6月</p>
@@ -50,11 +49,12 @@
               <tr>
                 <td></td>
                 <td></td>
-                <td class="text-right"><span>合計 </span>945<span> 元</span></td>
+                <td class="text-right"><span>合計 </span>{{ targetedReceipt.amount }}<span> 元</span></td>
               </tr>
             </tbody>
           </table>
           <div class="text-center">
+            <input @click="$emit('closeReceiptDetail')" class="btn print submit w-25" value="關閉" style="background: linear-gradient(230deg, #565251, #959796); margin-right: 15px" />
             <input v-print="'#receipt'" type="submit" class="btn print submit w-25" value="列印" />
           </div>
         </div>
@@ -63,12 +63,28 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      
-    }
-  },
+<style>
+#receipt {
+  opacity: 0;
+  visibility: hidden;
+  transition-duration: 0.2s;
 }
+#receipt.show {
+  opacity: 1;
+  visibility: visible;
+}
+</style>
+
+<script>
+import moment from 'moment';
+
+export default {
+  props: ['backgroundMaskActive', 'display', 'targetedReceipt'],
+  data() {
+    return {};
+  },
+  created() {
+    this.moment = moment;
+  }
+};
 </script>

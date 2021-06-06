@@ -17,14 +17,24 @@ class CouponsController extends Controller
      */
     public function index(Request $request)
     {
-	    $seller_id = $request->seller_id==null ? null:$request->seller_id;
-	    if ($seller_id){
-		$coupons = Coupons::where('seller_id',$request->seller_id)
-						    ->get();
-	    }else{
-	    $coupons = Coupons::get();
-	    }
-        return response(['coupons' => $coupons], 200);
+        if ($request->carrier) {
+            if ($request->seller_id){
+                $coupons = Coupons::where('seller_id', $request->seller_id)
+                                ->where('carrier', $request->carrier)
+                                ->get();
+            }else{
+                $coupons = Coupons::where('carrier', $request->carrier)
+                                ->get();
+            }
+
+            if (count($coupons) == 0) {
+                return response(['code' => 9002, 'error' => 'no record'], 200);
+            }
+    
+            return response(['coupons' => $coupons], 200);
+        }
+
+        return response(['code' => 9001, 'error' => 'missing argument(carrier)'], 200);
     }
 
     /**
