@@ -45,7 +45,7 @@ class CouponsController extends Controller
      */
     public function store(Request $request)
     {
-        $uuid = array("uuid" => Str::random(20));
+        $uuid = array("uuid" => Str::uuid());
 	    $coupon = Coupons::create(array_merge($uuid, $request->all()));
     	return response($coupon, 200);
     }

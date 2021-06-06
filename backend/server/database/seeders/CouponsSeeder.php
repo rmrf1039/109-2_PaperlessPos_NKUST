@@ -17,7 +17,7 @@ class CouponsSeeder extends Seeder
     public function run()
     {
         DB::table('coupons')->insert([
-            'uuid' => Str::random(20),
+            'uuid' => Str::uuid(),
             'seller_id' => '001',
             'title' => 'CouponTEST_'.Str::random(5),
             'detail' => Str::random(10),

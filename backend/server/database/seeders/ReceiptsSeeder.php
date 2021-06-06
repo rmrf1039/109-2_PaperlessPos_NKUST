@@ -17,7 +17,7 @@ class ReceiptsSeeder extends Seeder
     public function run()
     {
         DB::table('receipts')->insert([
-            'track' => strtoupper(Str::random(2)),
+            'track' => generateRandomString(),
             'number' => mt_rand(10000000, 99999999),
             'seller_id' => '001',
             'detail' => Str::random(19),
@@ -28,4 +28,12 @@ class ReceiptsSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }
+}
+
+function generateRandomString($length = 2) {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) $randomString .= $characters[rand(0, $charactersLength - 1)];
+    return $randomString;
 }

@@ -12,7 +12,9 @@
           </div>
           <div>
             <p class="text-right">110年5-6月</p>
-            <p><img width="100" src="/assets/images/qrcode.png" /></p>
+            <p style="margin-left: 1rem;">
+              <qrcode-vue :value="targetedReceipt.track + targetedReceipt.number"></qrcode-vue>
+              </p>
           </div>
         </div>
       </div>
@@ -76,10 +78,14 @@
 </style>
 
 <script>
+import QrcodeVue from 'qrcode.vue'
 import moment from 'moment';
 
 export default {
   props: ['backgroundMaskActive', 'display', 'targetedReceipt'],
+  components: {
+    QrcodeVue
+  },
   data() {
     return {};
   },
