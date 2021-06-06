@@ -9,7 +9,7 @@
                 <h2 class="card-title-c">電子載具</h2>
                 <hr />
                 <div class="mb-4">結帳時請出示給店員掃描</div>
-                <img class="mb-4" width="200" src="/assets/images/code.png" />
+                 <BarCode :value="carrier" tag="svg" :options="{displayValue: false}"></BarCode>
                 <div class="mb-3">手機條碼：{{ carrier }}</div>
               </div>
               <div class="text-center">
@@ -24,8 +24,13 @@
 </template>
 
 <script>
+import BarCode from '../components/barcode';
+
 export default {
   props: ['backgroundMaskActive', 'carrier'],
+  components: {
+    BarCode
+  },
   data() {
     return {
       
