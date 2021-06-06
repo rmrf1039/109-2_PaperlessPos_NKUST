@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\Coupons;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Response;
 use Illuminate\Support\Str;
+use Response;
 
 class CouponsController extends Controller
 {
@@ -45,7 +45,8 @@ class CouponsController extends Controller
      */
     public function store(Request $request)
     {
-	    $coupon = Coupons::create($request->all());
+        $uuid = array("uuid" => Str::random(20));
+	    $coupon = Coupons::create(array_merge($uuid, $request->all()));
     	return response($coupon, 200);
     }
 

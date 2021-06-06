@@ -17,7 +17,8 @@ class ReceiptsSeeder extends Seeder
     public function run()
     {
         DB::table('receipts')->insert([
-            'number' => Str::random(10),
+            'track' => strtoupper(Str::random(2)),
+            'number' => mt_rand(10000000, 99999999),
             'seller_id' => '001',
             'detail' => Str::random(19),
             'uniform_num' => '76014406',

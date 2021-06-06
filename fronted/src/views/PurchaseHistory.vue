@@ -21,7 +21,7 @@
                     <tr @click="displayReceiptDetail(receipt)" v-for="receipt in receipts" :key="receipt.number">
                       <td>{{ receipt.seller_id }}</td>
                       <td>
-                        <span class="badge-primar">{{ receipt.number }}</span>
+                        <span class="badge-primar">{{ receipt.track }}-{{ receipt.number }}</span>
                       </td>
                       <td>{{ receipt.amount }}</td>
                       <td>{{ moment(receipt.created_at).format("YYYY/MM/DD HH:mm") }}</td>

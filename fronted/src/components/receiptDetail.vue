@@ -6,7 +6,7 @@
           <img width="80" src="/assets/images/store.png" class="mr-3 rounded-circle" />
           <div class="media-body">
             <h4 class="card-title-c">{{ targetedReceipt.seller_id }}</h4>
-            <h4 class="mb-0">{{ targetedReceipt.number }}</h4>
+            <h4 class="mb-0">{{ targetedReceipt.track }}-{{ targetedReceipt.number }}</h4>
             <div class="mb-0">{{ moment(targetedReceipt.created_at).format('YYYY/MM/DD HH:mm') }}</div>
             <div class="mb-0">統編：{{ targetedReceipt.uniform_num }}</div>
           </div>
