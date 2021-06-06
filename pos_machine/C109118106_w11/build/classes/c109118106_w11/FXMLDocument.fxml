@@ -73,8 +73,36 @@
                               <TableColumn fx:id="col_recipt_num" prefWidth="129.0" text="發票號碼" />
                            </columns>
                         </TableView>
-                        <Pagination fx:id="pagination1" layoutX="28.0" layoutY="381.0" maxPageIndicatorCount="2" prefHeight="86.0" prefWidth="236.0" />
+                        <Pagination fx:id="pagination_ord" layoutX="28.0" layoutY="381.0" maxPageIndicatorCount="2" prefHeight="86.0" prefWidth="236.0" />
                         <TextArea fx:id="log_pane_ord" layoutX="720.0" layoutY="388.0" prefHeight="200.0" prefWidth="300.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="優惠券維護">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="429.0" prefWidth="620.0" style="-fx-background-color: Azure;">
+                     <children>
+                        <Button layoutX="504.0" layoutY="409.0" mnemonicParsing="false" onAction="#coupon_pub" prefHeight="41.0" prefWidth="150.0" styleClass="danger" text="發布優惠券" />
+                        <Separator layoutX="-5.0" layoutY="488.0" prefHeight="13.0" prefWidth="700.0" />
+                        <TextField fx:id="queryTitle" layoutX="63.0" layoutY="517.0" prefHeight="32.0" prefWidth="350.0" promptText="查詢學號" text="滿百打八折" />
+                        <TextField fx:id="queryCarrier" layoutX="62.0" layoutY="555.0" prefHeight="32.0" prefWidth="350.0" promptText="查詢姓名" text="/1ZXCASD" />
+                        <Button layoutX="504.0" layoutY="517.0" mnemonicParsing="false" onAction="#findCouponTitle" prefHeight="31.0" prefWidth="150.0" styleClass="success" text="優惠名稱查詢" />
+                        <Button layoutX="504.0" layoutY="555.0" mnemonicParsing="false" onAction="#findCarrier" prefHeight="31.0" prefWidth="150.0" styleClass="success" text="載具查詢" />
+                        <Button layoutX="26.0" layoutY="19.0" mnemonicParsing="false" onAction="#showCoupon" prefHeight="31.0" prefWidth="200.0" styleClass="success" text="顯示全部優惠券" />
+                        <Separator layoutX="-3.0" layoutY="61.0" prefHeight="13.0" prefWidth="1014.0" />
+                        <TableView fx:id="table_coupon" layoutX="56.0" layoutY="74.0" prefHeight="286.0" prefWidth="916.0">
+                           <columns>
+                              <TableColumn fx:id="col_cou_id" prefWidth="79.0" text="排序" />
+                              <TableColumn fx:id="col_coupon_name" prefWidth="92.0" text="名稱" />
+                              <TableColumn fx:id="col_carrier" prefWidth="94.0" text="持有者載具" />
+                              <TableColumn fx:id="col_coupon_detail" prefWidth="381.0" text="內容" />
+                              <TableColumn fx:id="col_coupon_exp" prefWidth="139.0" text="到期時間" />
+                              <TableColumn fx:id="col_coupon_used" prefWidth="129.0" text="是否使用" />
+                           </columns>
+                        </TableView>
+                        <Pagination fx:id="pagination_cou" layoutX="28.0" layoutY="381.0" maxPageIndicatorCount="2" prefHeight="86.0" prefWidth="236.0" />
+                        <TextArea fx:id="log_pane_coupon" layoutX="720.0" layoutY="388.0" prefHeight="200.0" prefWidth="300.0" />
                      </children>
                   </AnchorPane>
                </content>

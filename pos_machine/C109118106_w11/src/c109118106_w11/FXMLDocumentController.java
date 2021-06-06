@@ -20,7 +20,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -35,9 +38,15 @@ import models.DBConnection;
 import models.ProductDAO;
 import models.Product;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
+import models.Coupon;
+import models.CouponDAO;
 
 /**
  *
@@ -47,6 +56,7 @@ public class FXMLDocumentController implements Initializable {
 
     private List<Product> products = new ArrayList();
     private List<Order> orders = new ArrayList();
+    private List<Coupon> coupons = new ArrayList();
     //products也可以宣告為ObservableList<Product>，會更方便
     //private ObservableList<Product> products = FXCollections.observableArrayList();
     //若products是ObservableList<Product>要這樣寫才可行:
@@ -54,6 +64,7 @@ public class FXMLDocumentController implements Initializable {
     //方便操作資料庫的物件
     private ProductDAO prodao = new ProductDAO();
     private OrderDAO orddao = new OrderDAO();
+    private CouponDAO coudao = new CouponDAO();
 
     @FXML
     private TableView<Product> table_product;
@@ -96,8 +107,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private TableColumn<Order, String> col_recipt_num;
     @FXML
-    private Pagination pagination1;
-    @FXML
     private TextField queryPhone;
     @FXML
     private TextField queryUser;
@@ -105,6 +114,31 @@ public class FXMLDocumentController implements Initializable {
     private TextArea log_pane_product;
     @FXML
     private TextArea log_pane_ord;
+    @FXML
+    private Pagination pagination_ord;
+    private TextField queryCName;
+    @FXML
+    private TextField queryCarrier;
+    @FXML
+    private TableView<Coupon> table_coupon;
+    @FXML
+    private TableColumn<Coupon, String> col_cou_id;
+    @FXML
+    private TableColumn<Coupon, String> col_coupon_name;
+    @FXML
+    private TableColumn<Coupon, String> col_carrier;
+    @FXML
+    private TableColumn<Coupon, String> col_coupon_detail;
+    @FXML
+    private TableColumn<Coupon, String> col_coupon_exp;
+    @FXML
+    private TableColumn<Coupon, Integer> col_coupon_used;
+    @FXML
+    private Pagination pagination_cou;
+    @FXML
+    private TextArea log_pane_coupon;
+    @FXML
+    private TextField queryTitle;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -112,6 +146,7 @@ public class FXMLDocumentController implements Initializable {
         //TextArea log_pane = new TextArea();
         log_pane_init(log_pane_product);
         log_pane_init(log_pane_ord);
+        log_pane_init(log_pane_coupon);
     }
 
     public void log_pane_init(TextArea ta) {
@@ -223,6 +258,14 @@ public class FXMLDocumentController implements Initializable {
         col_customer_address.setCellValueFactory(new PropertyValueFactory<>("customer_address"));
         col_customer_phone.setCellValueFactory(new PropertyValueFactory<>("customer_phone"));
         col_recipt_num.setCellValueFactory(new PropertyValueFactory<>("recipt_num"));
+
+        col_cou_id.setCellValueFactory(new PropertyValueFactory<>("num"));
+        col_coupon_name.setCellValueFactory(new PropertyValueFactory<>("title"));
+        col_carrier.setCellValueFactory(new PropertyValueFactory<>("carrier"));
+        col_coupon_detail.setCellValueFactory(new PropertyValueFactory<>("detail"));
+        col_coupon_exp.setCellValueFactory(new PropertyValueFactory<>("expired_date"));
+        col_coupon_used.setCellValueFactory(new PropertyValueFactory<>("used"));
+
         //按下頁次會驅動的事件，寫法格式有點難理解，說明如後:
         //ObservableValue<? extends Number> 是介面，
         // ? extends Number 表示某種型態繼承Number類別  ?表示此型態沒被用到所以用?代替
@@ -343,11 +386,30 @@ public class FXMLDocumentController implements Initializable {
 
     private void loadTable_ord() {
         int totalPage = (int) (Math.ceil(orders.size() * 1.0 / RowsPerPage));
-        pagination1.setPageCount(totalPage);
+        pagination_ord.setPageCount(totalPage);
         //pagination.setCurrentPageIndex(0);
-        int currentpg = pagination1.getCurrentPageIndex();
+        int currentpg = pagination_ord.getCurrentPageIndex();
         showTablePage_ord(currentpg, RowsPerPage);
         tp_display(log_pane_ord, "讀取訂單");
+    }
+
+    private void loadTable_cou() {
+        int totalPage = (int) (Math.ceil(coupons.size() * 1.0 / RowsPerPage));
+        pagination_cou.setPageCount(totalPage);
+        //pagination.setCurrentPageIndex(0);
+        int currentpg = pagination_cou.getCurrentPageIndex();
+        showTablePage_cou(currentpg, RowsPerPage);
+        tp_display(log_pane_coupon, "讀取優惠券");
+    }
+
+    private void showTablePage_cou(int pg, int row_per_pg) {
+        table_coupon.getItems().clear(); //先清除表格內容
+        int from = pg * row_per_pg;  //計算在此頁面顯示第幾筆到第幾筆
+        int to = Math.min(from + row_per_pg, coupons.size());
+        //products一筆一筆加到表格中
+        for (int i = from; i < to; i++) {
+            table_coupon.getItems().add(coupons.get(i));
+        }
     }
 
     private void showTablePage_ord(int pg, int row_per_pg) {
@@ -414,6 +476,51 @@ public class FXMLDocumentController implements Initializable {
         orders = orddao.selectByUser(queryUser.getText());
         loadTable_ord();
         tp_display(log_pane_ord, "查找客戶完畢\r");
+    }
+
+    @FXML
+    private void coupon_pub(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML_CouponPublish.fxml"));
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setOpacity(1);
+        stage.setTitle("優惠券設定");
+        stage.setScene(new Scene(root, 600, 270));
+        stage.showAndWait();
+    }
+
+    @FXML
+    private void findCouponTitle(ActionEvent event) {
+        coupons.clear();
+        coupons = coudao.selectByCarrier(queryTitle.getText(),0);
+        System.out.println(queryTitle.getText());
+        //orders.add(orddao.selectByPhone(queryPhone.getText()));
+        //products = prodao.selectByID(queryID.getText());
+        loadTable_cou();
+        tp_display(log_pane_coupon, "查找標題完畢");
+    }
+
+    @FXML
+    private void findCarrier(ActionEvent event) {
+        coupons.clear();
+        coupons = coudao.selectByCarrier(queryCarrier.getText(),1);
+        //orders.add(orddao.selectByPhone(queryPhone.getText()));
+        //products = prodao.selectByID(queryID.getText());
+        loadTable_cou();
+        tp_display(log_pane_coupon, "查找載具完畢");
+    }
+
+    @FXML
+    private void showCoupon(ActionEvent event) {
+        coudao.getAllCoupon("42087420");
+
+        coupons = coudao.getAllCoupon("42087420");
+
+        //若students是ObservableList<Student>要這樣寫才可行:
+        //students.addAll( stdao.getAllStudents()); 
+        loadTable_cou();
+        tp_display(log_pane_coupon, "資料庫讀取完畢，已顯示本店所有優惠券");
     }
 
 }

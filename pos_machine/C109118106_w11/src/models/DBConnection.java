@@ -13,9 +13,9 @@ public class DBConnection {
 
     private static Connection conn;
 
-    private static final String URL = "jdbc:mariadb://localhost:3306/db_pos";
-    private static final String USER = "root";
-    private static final String PWD = "Skills39";
+    private static final String URL = "jdbc:mariadb://mbeutwen.ddns.net:3306/plsys";
+    private static final String USER = "test01";
+    private static final String PWD = "minsen200110";
 
     public static Connection getConnection() {
 

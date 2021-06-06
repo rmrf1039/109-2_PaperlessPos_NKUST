@@ -10,17 +10,24 @@ package models;
  * @author RXiau6
  */
 public class Receipt {
+    private String track;
 
+    public String getTrack() {
+        return track;
+    }
+
+    public void setTrack(String track) {
+        this.track = track;
+    }
     private String number;
     private String seller_id;
     private String detail;
     private String uniform_num;
     private String carrier;
-    private double amount;
-    private String createdDate;
-    private String updatedDate;
 
-    public Receipt(String number, String seller_id, String detail, String uniform_num, String carrier, double amount) {
+    public Receipt(String track, String number, String seller_id, String detail,
+            String uniform_num, String carrier, double amount) {
+        this.track = track;
         this.number = number;
         this.seller_id = seller_id;
         this.detail = detail;
@@ -28,6 +35,11 @@ public class Receipt {
         this.carrier = carrier;
         this.amount = amount;
     }
+    private double amount;
+    private String createdDate;
+    private String updatedDate;
+
+
 
     public String getCreatedDate() {
         return createdDate;
