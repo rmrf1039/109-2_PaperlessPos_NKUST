@@ -20,10 +20,16 @@ public class Coupon {
     public Coupon() {
     }
 
+    public Coupon(String seller_id, String title, String detail, String expired_date, int used) {
+        this.seller_id = seller_id;
+        this.title = title;
+        this.detail = detail;
+        this.expired_date = expired_date;
+        this.used = used;
+    }
+
     public Coupon(int num, String seller_id, String title, String detail, String carrier, String expired_date, int used) {
-        if (num!=0){
-           this.num = num;
-        }
+        this.num = num;
         this.seller_id = seller_id;
         this.title = title;
         this.detail = detail;

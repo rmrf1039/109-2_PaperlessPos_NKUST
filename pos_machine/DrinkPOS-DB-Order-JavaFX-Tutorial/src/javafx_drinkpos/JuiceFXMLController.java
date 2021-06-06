@@ -360,6 +360,7 @@ public class JuiceFXMLController implements Initializable {
     }
 
     //連接DB，取得最後發票號碼，並更新下一位號碼至DB
+    /*
     private String recipt_num_gen() {
         String track = "AA";
         int num = orderDao.getRecipt_num();
@@ -371,7 +372,9 @@ public class JuiceFXMLController implements Initializable {
         String recipt_num = String.format("%s" + "%08d", track, num);
         return recipt_num;
     }
-
+    */
+    //統編檢查
+    /*
     private boolean check_uni(String id) {
         if (id == null || id.length() != 8) {
             return false;
@@ -392,7 +395,7 @@ public class JuiceFXMLController implements Initializable {
         } catch (Exception e) {
             return false;
         }
-    }
+    }*/
 
     //結帳*******************這裡寫入訂單明細到資料庫
     @FXML
@@ -428,16 +431,16 @@ public class JuiceFXMLController implements Initializable {
             } else {
                 display.setText("錯誤，請檢查統編是否錯誤");    //統編錯誤
             }
-            String recipt_num = recipt_num_gen(); //到此步驟確認無載具問題，產生發票號碼
+            //String recipt_num = recipt_num_gen(); //到此步驟確認無載具問題，產生發票號碼
 
             if (acc_chk == true && acc_addr == false
                     && uni_addr == false) {  //無載具，無統編
                 display.setText("已結帳，發票列印中...\n");
-                display.appendText("發票號碼 : " + recipt_num + "\n");
+                //display.appendText("發票號碼 : " + recipt_num + "\n");
             } else if (acc_chk == true && acc_addr == false
                     && uni_addr == true) {   //無載具，有統編
                 display.setText("已結帳，發票列印中...\n");
-                display.appendText("發票號碼 : " + recipt_num + "\n");
+                //display.appendText("發票號碼 : " + recipt_num + "\n");
                 display.appendText("統一編號 : " + uni + "\n");
             } else if (acc_chk == true && acc_addr == true
                     && uni_addr == false) {  //有載具，無統編
@@ -477,7 +480,7 @@ public class JuiceFXMLController implements Initializable {
                 Receipt rec = new Receipt();
                 rec.setCarrier(acc);
                 rec.setAmount(sum);
-                rec.setNumber(recipt_num);
+                //rec.setNumber(recipt_num);
                 rec.setUniform_num(uni);
                 rec.setSeller_id("42087420");
                 rec.setDetail("none");
@@ -490,7 +493,7 @@ public class JuiceFXMLController implements Initializable {
             crt.setCustomer_name("無姓名");
             crt.setCustomer_phtone("無電話");
             crt.setCustomer_address("無地址");
-            crt.setRecipt_num(recipt_num); //寫入一筆訂單道資料庫
+            //crt.setRecipt_num(recipt_num); //寫入一筆訂單道資料庫
             orderDao.insertCart(crt);
 
             //逐筆寫入訂單明細

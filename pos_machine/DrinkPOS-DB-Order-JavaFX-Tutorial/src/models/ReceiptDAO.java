@@ -57,6 +57,7 @@ public class ReceiptDAO {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 Receipt receipt = new Receipt();
+                receipt.setTrack(obj.get("track").toString());
                 receipt.setNumber(obj.get("number").toString());
                 receipt.setSeller_id(obj.get("seller_id").toString());
                 receipt.setDetail(obj.get("detail").toString());
@@ -163,7 +164,8 @@ public class ReceiptDAO {
     public static void main(String[] args) {
         ReceiptDAO dao = new ReceiptDAO();
         Receipt recipt = new Receipt(
-                "AA12678912",
+                "AB",
+                "12678912",
                 "001",
                 "OXEciv1BWoT8aSiBmxx",
                 "76014406",
@@ -172,7 +174,7 @@ public class ReceiptDAO {
         );
         List<Receipt> acc_recipt = dao.getAllRecipts("/1ZXCASD");
         //System.out.println(dao.insert(recipt));
-        System.out.println(dao.delete("AA12678912"));
+        //System.out.println(dao.delete("AA12678912"));
         for (Receipt my_recipt : acc_recipt) {
             System.out.println(my_recipt);
         }
