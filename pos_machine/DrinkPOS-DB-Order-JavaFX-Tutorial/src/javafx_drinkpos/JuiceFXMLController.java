@@ -22,11 +22,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -44,6 +46,7 @@ import models.Product;
 import models.ProductDAO;
 import models.ReceiptDAO;
 import models.Receipt;
+import models.CouponDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -69,7 +72,7 @@ public class JuiceFXMLController implements Initializable {
     private Label item_price;
     @FXML
     private ImageView item_image;
-
+    private String uuid = "";
     //買幾杯
     @FXML
     private ComboBox<String> quantity;
@@ -86,10 +89,16 @@ public class JuiceFXMLController implements Initializable {
     ProductDAO productDao = new ProductDAO();
     OrderDAO orderDao = new OrderDAO();
     ReceiptDAO receiptDao = new ReceiptDAO();
+    CouponDAO couponDao = new CouponDAO();
     @FXML
     private TextField acc_input;
     @FXML
     private TextField uni_input;
+    @FXML
+    private RadioButton btn_useCoupon;
+    @FXML
+    private RadioButton btn_noCoupon;
+    ToggleGroup cou_ops = new ToggleGroup();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -98,6 +107,8 @@ public class JuiceFXMLController implements Initializable {
 
         //將所有可視元件初始化布置好，事件也準備好
         initMyComponents();
+        btn_useCoupon.setToggleGroup(cou_ops);
+        btn_noCoupon.setToggleGroup(cou_ops);
         /*
         String s1 = "/1SOOJHQ";
         String s2 = "/1SOOJH";
@@ -401,6 +412,22 @@ public class JuiceFXMLController implements Initializable {
             return false;
         }
     }*/
+    //滿百送優惠券
+    private void addCoupon(double sum, String acc) {
+        if (sum >= 100) {
+            
+            uuid = couponDao.getUnUsed_uuid("42087420");
+            if (uuid.equals("0")||uuid.length()<=1){
+                System.out.println("優惠券沒了");
+            }else{
+                System.out.println("發放:" +uuid);
+                display.appendText("\n優惠券已存至系統，下次可使用\n");
+                couponDao.update(uuid, acc, 0);
+            }
+            
+        }
+    }
+
     //結帳*******************這裡寫入訂單明細到資料庫
     @FXML
     private void check(ActionEvent event) {
@@ -451,12 +478,14 @@ public class JuiceFXMLController implements Initializable {
                 String msg = String.format("已結帳\n發票明細已儲存至載具\n(%s)", acc);
                 display.setText(msg);
                 System.out.println(acc);
+                addCoupon(sum, acc);
             } else if (acc_chk == true && acc_addr == true
                     && uni_addr == true) {   //有載具，有統編
                 String msg = String.format("已結帳\n發票明細已儲存至載具\n(%s)", acc);
                 display.setText(msg);
                 System.out.println(acc);
                 display.appendText("統一編號 : " + uni + "\n");
+                addCoupon(sum, acc);
             } else {
                 System.out.println("receipt/uni ERROR");
             }
@@ -509,6 +538,11 @@ public class JuiceFXMLController implements Initializable {
                 orderDao.insertOrderDetailItem(item);
                 System.out.println(arr);
             }
+            if (btn_useCoupon.isSelected() && couponDao.isUsed(uuid)) {
+                int used = 1;
+                couponDao.update(uuid, acc, used);
+                sum=(int)(sum*0.85);
+            }
             if (acc_chk == true && acc_addr == true) {
                 Receipt rec = new Receipt();
                 rec.setCarrier(acc);
@@ -551,5 +585,33 @@ public class JuiceFXMLController implements Initializable {
         //顯示總金額於display
         String totalmsg = String.format("%s %d\n", "總金額:", check_total());
         display.setText(totalmsg);
+    }
+
+    @FXML
+    private void checkCoupon(ActionEvent event) {
+        String carrier = acc_input.getText();
+        String msg = String.format("載具%s中沒有優惠券", carrier);
+        uuid = couponDao.getCoupon_uuid(uuid, carrier);
+        if (uuid.length()<=1 || uuid.equals("0") ||couponDao.isUsed(uuid)) {
+            display.setText(msg);
+            btn_noCoupon.setSelected(true);
+        } else {
+            display.setText("使用優惠券，85折");
+            System.out.println(uuid);
+            OrderDetail newOrdd = new OrderDetail();
+            int total = check_total();
+
+            String discount = String.format("\n折價後:%.0f元", (total * 0.85));
+            display.appendText(discount);
+            newOrdd.setProduct_id("coupon-01");
+            System.out.println(newOrdd.getProduct_id());
+            newOrdd.setProduct_name("優惠券－85折");
+            System.out.println(newOrdd.getProduct_name());
+            newOrdd.setProduct_price((0));
+            System.out.println(newOrdd.getProduct_price());
+            newOrdd.setQuantity(1);
+            System.out.println(newOrdd.getQuantity());
+            order_list.add(newOrdd);
+        }
     }
 }

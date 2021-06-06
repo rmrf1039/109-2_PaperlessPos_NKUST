@@ -257,14 +257,14 @@ public class FXMLDocumentController implements Initializable {
         col_customer_address.setCellValueFactory(new PropertyValueFactory<>("customer_address"));
         col_customer_phone.setCellValueFactory(new PropertyValueFactory<>("customer_phone"));
         col_recipt_num.setCellValueFactory(new PropertyValueFactory<>("recipt_num"));
-        
+
         col_cou_id.setCellValueFactory(new PropertyValueFactory<>("num"));
         col_coupon_name.setCellValueFactory(new PropertyValueFactory<>("title"));
         col_carrier.setCellValueFactory(new PropertyValueFactory<>("carrier"));
         col_coupon_detail.setCellValueFactory(new PropertyValueFactory<>("detail"));
         col_coupon_exp.setCellValueFactory(new PropertyValueFactory<>("expired_date"));
         col_coupon_used.setCellValueFactory(new PropertyValueFactory<>("used"));
-        
+
         //按下頁次會驅動的事件，寫法格式有點難理解，說明如後:
         //ObservableValue<? extends Number> 是介面，
         // ? extends Number 表示某種型態繼承Number類別  ?表示此型態沒被用到所以用?代替
@@ -491,10 +491,22 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void findCouponTitle(ActionEvent event) {
+        coupons.clear();
+        coupons = coudao.selectByTitle(queryCName.getText());
+        //orders.add(orddao.selectByPhone(queryPhone.getText()));
+        //products = prodao.selectByID(queryID.getText());
+        loadTable_cou();
+        tp_display(log_pane_coupon, "查找標題完畢");
     }
 
     @FXML
     private void findCarrier(ActionEvent event) {
+        coupons.clear();
+        coupons = coudao.selectByCarrier(queryCarrier.getText());
+        //orders.add(orddao.selectByPhone(queryPhone.getText()));
+        //products = prodao.selectByID(queryID.getText());
+        loadTable_cou();
+        tp_display(log_pane_coupon, "查找載具完畢");
     }
 
     @FXML

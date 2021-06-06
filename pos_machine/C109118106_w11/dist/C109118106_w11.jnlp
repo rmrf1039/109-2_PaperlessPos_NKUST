@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="C109118106_w11.jar" size="4701510" download="eager" />
+    <jar href="C109118106_w11.jar" size="4702034" download="eager" />
     <jar href="lib\json.jar" size="57238" download="eager" />
     <jar href="lib\mariadb-java-client-2.2.3.jar" size="566457" download="eager" />
   </resources>

@@ -6,6 +6,7 @@
 package models;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -13,6 +14,7 @@ import static java.lang.String.valueOf;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,132 @@ import org.json.JSONObject;
 public class CouponDAO {
 
     private HttpURLConnection conn;
+    private String url = "http://mbeutwen.ddns.net:8000/api/coupons";
+
+    public boolean isUsed(String uuid) {
+        String param = String.format("/$s", uuid);
+        int used = 1;
+        try {
+            URL connUrl = new URL(url + param);
+            conn = (HttpURLConnection) connUrl.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            (conn.getInputStream())));
+            //JSON字串處理
+            JSONObject output;
+            output = new JSONObject(br.readLine());
+            JSONArray arr = output.getJSONArray("coupons");
+            System.out.println(output);
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                used = Integer.parseInt(obj.get("used").toString());
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("getUuid時 url異常: " + ex.toString());
+        } catch (IOException ex) {
+            System.out.println("getUuid時 conn異常: " + ex.toString());
+        } catch (JSONException ex) {
+            System.out.println("getUuid時 json轉換異常 : " + ex.toString());
+        } catch (Exception ex) {
+            System.out.println("getUuid時 不明錯誤 : " + ex.toString());
+        }
+        if (used == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String getUnUsed_uuid(String seller_id) {
+        String param = String.format("?seller_id=%s&limit=1", seller_id);
+        String uuid = "empty";
+        try {
+            URL connUrl = new URL(url + param);
+            conn = (HttpURLConnection) connUrl.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() == 404) {
+                return "0";
+            } else if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            (conn.getInputStream())));
+            //JSON字串處理
+            JSONObject output;
+            output = new JSONObject(br.readLine());
+            JSONArray arr = output.getJSONArray("coupons");
+            System.out.println(output);
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                uuid = obj.get("uuid").toString();
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("getUnUsed_uuid時 url異常: " + ex.toString());
+        } catch (IOException ex) {
+            System.out.println("getUnUsed_uuid時 conn異常: " + ex.toString());
+        } catch (JSONException ex) {
+            System.out.println("getUnUsed_uuid時 json轉換異常 : " + ex.toString());
+        } catch (Exception ex) {
+            System.out.println("getUnUsed_uuid時 不明錯誤 : " + ex.toString());
+        }
+        return uuid;
+    }
+
+    public String getCoupon_uuid(String seller_id, String carrier) {
+        String param = String.format("?seller_id=%s&carrier=%s", seller_id, carrier);
+        String uuid = "empty";
+        if (carrier.length() < 8) {
+            return "0";
+        }
+        try {
+            URL connUrl = new URL(url + param);
+            conn = (HttpURLConnection) connUrl.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() == 404) {
+                return "0";
+            } else if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            (conn.getInputStream())));
+            //JSON字串處理
+            JSONObject output;
+            output = new JSONObject(br.readLine());
+            JSONArray arr = output.getJSONArray("coupons");
+            System.out.println(output);
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                uuid = obj.get("uuid").toString();
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("getUuid時 url異常: " + ex.toString());
+        } catch (IOException ex) {
+            System.out.println("getUuid時 conn異常: " + ex.toString());
+        } catch (JSONException ex) {
+            System.out.println("getUuid時 json轉換異常 : " + ex.toString());
+        } catch (Exception ex) {
+            System.out.println("getUuid時 不明錯誤 : " + ex.toString());
+        }
+        return uuid;
+    }
 
     public List<Coupon> getAllCoupon(String seller_id) {
 
@@ -34,9 +162,8 @@ public class CouponDAO {
 
         try {
 
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons?"
-                    + "seller_id=%s", seller_id);
-            URL connUrl = new URL(url);
+            String param = String.format("?seller_id=%s", seller_id);
+            URL connUrl = new URL(url + param);
             conn = (HttpURLConnection) connUrl.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -57,7 +184,7 @@ public class CouponDAO {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 Coupon coupon = new Coupon();
-                coupon.setNum(i+1);
+                coupon.setNum(i + 1);
                 coupon.setSeller_id(obj.get("seller_id").toString());
                 coupon.setTitle(obj.get("title").toString());
                 coupon.setDetail(obj.get("detail").toString());
@@ -86,7 +213,6 @@ public class CouponDAO {
         boolean success = false;
         try {
 
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons");
             URL connUrl = new URL(url);
             conn = (HttpURLConnection) connUrl.openConnection();
             conn.setRequestMethod("POST");
@@ -127,13 +253,58 @@ public class CouponDAO {
         return success;
     }
 
+    public boolean update(String uuid, String carrier, int used) {
+
+        boolean sucess = false;
+        try {
+            String param = String.format("/%s", uuid);
+            System.out.println("update param=" + param);
+            String urlParameters = String.format("carrier=%s&used=%d", carrier, used);
+            byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
+            int postDataLen = postData.length;
+
+            URL connUrl = new URL(url + param);
+            conn = (HttpURLConnection) connUrl.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("charset", "utf-8");
+            conn.setRequestProperty("Accept", "application/json");
+            conn.setRequestProperty("Content-Length", Integer.toString(postDataLen));
+            conn.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            conn.setUseCaches(false);
+            conn.setDoOutput(true);
+            conn.setInstanceFollowRedirects(false);
+
+            try (DataOutputStream wr = new DataOutputStream(conn.getOutputStream())) {
+                wr.write(postData);
+            }
+
+            sucess = conn.getResponseCode() == 200;
+            if (sucess) {
+                System.out.println("Record update successfully.");
+            } else {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("coupon update時 url異常: " + ex.toString());
+        } catch (IOException ex) {
+            System.out.println("coupon update時 conn異常: " + ex.toString());
+        } catch (JSONException ex) {
+            System.out.println("coupon update時 json轉換異常 : " + ex.toString());
+        } catch (Exception ex) {
+            System.out.println("coupon update時 不明錯誤 : " + ex.toString());
+        }
+        return sucess;
+    }
+
     public boolean delete(String number) {
 
         boolean sucess = false;
         try {
-            String url = String.format("http://mbeutwen.ddns.net:8000/api/receipts/%s",
-                    number);
-            URL connUrl = new URL(url);
+
+            String param = String.format("/%s", number);
+            URL connUrl = new URL(url + param);
             conn = (HttpURLConnection) connUrl.openConnection();
             conn.setRequestMethod("DELETE");
             conn.setRequestProperty("Content-Type", "application/json; utf-8");

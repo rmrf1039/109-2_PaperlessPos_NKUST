@@ -10,19 +10,22 @@ package models;
  * @author rxiau6-PC
  */
 public class Coupon {
+
+    private String uuid;
     private int num;
     private String seller_id;
     private String title;
     private String detail;
     private String carrier;
     private String expired_date;
+    private int used;
 
     public Coupon() {
     }
 
     public Coupon(int num, String seller_id, String title, String detail, String carrier, String expired_date, int used) {
-        if (num!=0){
-           this.num = num;
+        if (num != 0) {
+            this.num = num;
         }
         this.seller_id = seller_id;
         this.title = title;
@@ -31,7 +34,14 @@ public class Coupon {
         this.expired_date = expired_date;
         this.used = used;
     }
-    private int used;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public int getNum() {
         return num;
@@ -88,6 +98,5 @@ public class Coupon {
     public void setUsed(int used) {
         this.used = used;
     }
-
 
 }

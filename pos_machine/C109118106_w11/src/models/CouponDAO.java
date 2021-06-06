@@ -28,6 +28,112 @@ public class CouponDAO {
 
     private HttpURLConnection conn;
 
+    public List<Coupon> selectByTitle(String title) {
+        List<Coupon> acc_coupon = new ArrayList();
+
+        try {
+
+            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons?"
+                    + "seller_id=42087420&title=%s", title);
+            URL connUrl = new URL(url);
+            conn = (HttpURLConnection) connUrl.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            (conn.getInputStream())));
+            //JSON字串處理
+            JSONObject output;
+            output = new JSONObject(br.readLine());
+            JSONArray arr = output.getJSONArray("coupons");
+            System.out.println(output);
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                Coupon coupon = new Coupon();
+                coupon.setNum(i + 1);
+                coupon.setSeller_id(obj.get("seller_id").toString());
+                coupon.setTitle(obj.get("title").toString());
+                coupon.setDetail(obj.get("detail").toString());
+                coupon.setCarrier(obj.get("carrier").toString());
+                coupon.setExpired_date(obj.get("expired_date").toString());
+                coupon.setUsed(Integer.parseInt(valueOf(obj.get("used"))));
+
+                acc_coupon.add(coupon);
+
+            }
+        } catch (MalformedURLException ex) {
+            System.out.println("getByTitle時 url異常: " + ex.toString());
+        } catch (IOException ex) {
+            System.out.println("getByTitle時 conn異常: " + ex.toString());
+        } catch (JSONException ex) {
+            System.out.println("getByTitle時 json轉換異常 : " + ex.toString());
+        } catch (Exception ex) {
+            System.out.println("getByTitle時 不明錯誤 : " + ex.toString());
+        }
+
+        return acc_coupon;
+
+    }
+
+    public List<Coupon> selectByCarrier(String carrier) {
+        List<Coupon> acc_coupon = new ArrayList();
+
+        try {
+
+            String url = String.format("http://mbeutwen.ddns.net:8000/api/coupons?"
+                    + "seller_id=42087420&carrier=%s", carrier);
+            URL connUrl = new URL(url);
+            conn = (HttpURLConnection) connUrl.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            (conn.getInputStream())));
+            //JSON字串處理
+            JSONObject output;
+            output = new JSONObject(br.readLine());
+            JSONArray arr = output.getJSONArray("coupons");
+            System.out.println(output);
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+                Coupon coupon = new Coupon();
+                coupon.setNum(i + 1);
+                coupon.setSeller_id(obj.get("seller_id").toString());
+                coupon.setTitle(obj.get("title").toString());
+                coupon.setDetail(obj.get("detail").toString());
+                coupon.setCarrier(obj.get("carrier").toString());
+                coupon.setExpired_date(obj.get("expired_date").toString());
+                coupon.setUsed(Integer.parseInt(valueOf(obj.get("used"))));
+
+                acc_coupon.add(coupon);
+            }
+            //conn.disconnect();
+
+        } catch (MalformedURLException ex) {
+            System.out.println("getByCarrier時 url異常: " + ex.toString());
+        } catch (IOException ex) {
+            System.out.println("getByCarrier時 conn異常: " + ex.toString());
+        } catch (JSONException ex) {
+            System.out.println("getByCarrier時 json轉換異常 : " + ex.toString());
+        } catch (Exception ex) {
+            System.out.println("getByCarrier時 不明錯誤 : " + ex.toString());
+        }
+
+        return acc_coupon;
+    }
+
     public List<Coupon> getAllCoupon(String seller_id) {
 
         List<Coupon> acc_coupon = new ArrayList();
@@ -57,7 +163,7 @@ public class CouponDAO {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject obj = arr.getJSONObject(i);
                 Coupon coupon = new Coupon();
-                coupon.setNum(i+1);
+                coupon.setNum(i + 1);
                 coupon.setSeller_id(obj.get("seller_id").toString());
                 coupon.setTitle(obj.get("title").toString());
                 coupon.setDetail(obj.get("detail").toString());
