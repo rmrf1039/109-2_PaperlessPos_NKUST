@@ -15,9 +15,15 @@ class CouponsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $coupons = Coupons::get();
+	    $seller_id = $request->seller_id==null ? null:$request->seller_id;
+	    if ($seller_id){
+		$coupons = Coupons::where('seller_id',$request->seller_id)
+						    ->get();
+	    }else{
+	    $coupons = Coupons::get();
+	    }
         return response(['coupons' => $coupons], 200);
     }
 
