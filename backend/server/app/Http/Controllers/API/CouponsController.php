@@ -38,7 +38,8 @@ class CouponsController extends Controller
 		    $coupons = Coupons::where('seller_id', $request->seller_id)
 			    					->get();
 	    }else if($request->carrier){
-		    $coupons = Coupons::where('carrier', $request->carrier)
+		    $coupons = Coupons::where('used', false)
+                            ->where('carrier', $request->carrier)
 						   ->get();
 	    }else{
 		    return response(['code' => 9001, 'error' => 'missing argument(carrier)'], 200);

@@ -26,7 +26,7 @@
           </table>
           <div class="text-center  mb-5">
             <p>兌換條碼</p>
-            <img width="200" src="/assets/images/code.png" />
+            <BarCode :value="targetedCoupon.uuid" tag="svg" :options="{displayValue: true, width: 1, heigth: 0.7}"></BarCode>
           </div>
           <div class="text-center">
             <input type="button" @click="$emit('closeCouponDetail')" class="btn print submit w-25" value="回上頁" />
@@ -51,9 +51,13 @@
 
 <script>
 import moment from 'moment';
+import BarCode from '../components/barcode';
 
 export default {
   props: ['backgroundMaskActive', 'display', 'targetedCoupon'],
+  components: {
+    BarCode
+  },
   data() {
     return {};
   },

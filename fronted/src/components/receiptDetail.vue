@@ -8,7 +8,7 @@
             <h4 class="card-title-c">{{ targetedReceipt.seller_id }}</h4>
             <h4 class="mb-0">{{ targetedReceipt.track }}-{{ targetedReceipt.number }}</h4>
             <div class="mb-0">{{ moment(targetedReceipt.created_at).format('YYYY/MM/DD HH:mm') }}</div>
-            <div class="mb-0">統編：{{ targetedReceipt.uniform_num }}</div>
+            <div class="mb-0" v-if="targetedReceipt.uniform_num != null">統編：{{ targetedReceipt.uniform_num }}</div>
           </div>
           <div>
             <p class="text-right">110年5-6月</p>
@@ -31,20 +31,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>川普的包包</td>
-                <td class="text-center">x2</td>
-                <td class="text-right">199</td>
-              </tr>
-              <tr>
-                <td>習近平的鞋子</td>
-                <td class="text-center">x1</td>
-                <td class="text-right">187</td>
-              </tr>
-              <tr>
-                <td>蔡英文的帽子</td>
-                <td class="text-center">x3</td>
-                <td class="text-right">290</td>
+              <tr v-for="item in targetedReceipt.detail" :key="item.name">
+                <td>{{ item.name }}</td>
+                <td class="text-center">x{{ item.quantity }}</td>
+                <td class="text-right">{{ item.unit_price }}</td>
               </tr>
             </tbody>
             <tbody>

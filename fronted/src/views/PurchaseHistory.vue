@@ -24,7 +24,7 @@
                         <span class="badge-primar">{{ receipt.track }}-{{ receipt.number }}</span>
                       </td>
                       <td>{{ receipt.amount }}</td>
-                      <td>{{ moment(receipt.created_at).format("YYYY/MM/DD HH:mm") }}</td>
+                      <td>{{ moment(receipt.created_at).format('YYYY/MM/DD HH:mm') }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -41,7 +41,7 @@
 <style src="../assets/css/dataTables.bootstrap4.min.css"></style>
 
 <script>
-import moment from 'moment'
+import moment from 'moment';
 import ReceiptDetail from '../components/receiptDetail';
 
 //Bootstrap and jQuery libraries
@@ -61,7 +61,7 @@ export default {
         display: false,
       },
       receipts: {},
-      targetedReceipt: {}
+      targetedReceipt: {},
     };
   },
   created() {
@@ -85,6 +85,11 @@ export default {
         })
         .then((response) => {
           this.receipts = response.data.receipts;
+
+          this.receipts.forEach(function(receipt) {
+            receipt.detail = JSON.parse(receipt.detail);
+          });
+
           $('#receipts')
             .DataTable()
             .destroy();
