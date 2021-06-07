@@ -3,6 +3,8 @@ package javafx_drinkpos;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -46,6 +48,7 @@ import models.Product;
 import models.ProductDAO;
 import models.ReceiptDAO;
 import models.Receipt;
+import models.Coupon;
 import models.CouponDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -72,7 +75,7 @@ public class JuiceFXMLController implements Initializable {
     private Label item_price;
     @FXML
     private ImageView item_image;
-    private String uuid = "";
+    //private String uuid = "";
     //買幾杯
     @FXML
     private ComboBox<String> quantity;
@@ -415,17 +418,20 @@ public class JuiceFXMLController implements Initializable {
     //滿百送優惠券
     private void addCoupon(double sum, String acc) {
         if (sum >= 100) {
-            
-            uuid = couponDao.getUnUsed_uuid("42087420");
-            if (uuid.equals("0")||uuid.length()<=1){
-                System.out.println("優惠券沒了");
-            }else{
-                System.out.println("發放:" +uuid);
-                display.appendText("\n優惠券已存至系統，下次可使用\n");
-                couponDao.update(uuid, acc, 0);
-            }
-            
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            String exp = dtf.format(now.plusWeeks(1));
+            Coupon coupon = new Coupon();
+            coupon.setCarrier(acc);
+            coupon.setTitle("滿百85折");
+            coupon.setSeller_id("42087420");
+            coupon.setUsed(0);
+            coupon.setExpired_date(exp);
+            System.out.println("發放優惠券");
+            display.appendText("\n優惠券已存至系統，下次可使用\n");
+            couponDao.insert(coupon);
         }
+
     }
 
     //結帳*******************這裡寫入訂單明細到資料庫
@@ -538,10 +544,18 @@ public class JuiceFXMLController implements Initializable {
                 orderDao.insertOrderDetailItem(item);
                 System.out.println(arr);
             }
-            if (btn_useCoupon.isSelected() && couponDao.isUsed(uuid)) {
-                int used = 1;
-                couponDao.update(uuid, acc, used);
-                sum=(int)(sum*0.85);
+            if (btn_useCoupon.isSelected()) {
+                System.out.println("check uuid&use coupon");
+                String uuid = couponDao.getCoupon_uuid("42087420", acc);
+                if (uuid.equals("")) {
+                    display.setText("沒有優惠券");
+                    btn_noCoupon.setSelected(true);
+                } else {
+                    int used = 1;
+                    couponDao.update(uuid, acc, used);
+                    sum = (int) (sum * 0.85);
+                }
+                
             }
             if (acc_chk == true && acc_addr == true) {
                 Receipt rec = new Receipt();
@@ -591,8 +605,9 @@ public class JuiceFXMLController implements Initializable {
     private void checkCoupon(ActionEvent event) {
         String carrier = acc_input.getText();
         String msg = String.format("載具%s中沒有優惠券", carrier);
-        uuid = couponDao.getCoupon_uuid(uuid, carrier);
-        if (uuid.length()<=1 || uuid.equals("0") ||couponDao.isUsed(uuid)) {
+        System.out.println("checkCoupon");
+        String uuid = couponDao.getCoupon_uuid("42087420", carrier);
+        if (uuid.length()<=10) {
             display.setText(msg);
             btn_noCoupon.setSelected(true);
         } else {
